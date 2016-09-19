@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="@string/new_title"
+        android:id="@+id/newTextView"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="@string/save"
+        android:id="@+id/saveTextView"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="10dp" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="?android:attr/listDivider"
+        android:layout_below="@+id/newTextView"
+        android:layout_alignParentStart="true"
+        android:id="@+id/newTopSeparatorView"
+        android:layout_marginTop="10dp" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/habitNameEditText"
+        android:layout_below="@+id/newTopSeparatorView"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:hint="@string/name_hint"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentStart="true" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/pick_date"
+        android:id="@+id/pickDateButton"
+        android:layout_below="@+id/habitNameEditText"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="10dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:id="@+id/dateTextView"
+        android:layout_above="@+id/commentEditText"
+        android:layout_toRightOf="@+id/pickDateButton"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/commentEditText"
+        android:layout_below="@+id/pickDateButton"
+        android:layout_centerHorizontal="true"
+        android:hint="@string/comment_hint"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="10dp" />
+
+    <RadioButton
+        android:id="@+id/sunRadioButton"
+        android:text="@string/sunday"
+        android:gravity="center_horizontal"
+        android:layout_gravity="center_vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:button="@null"
+        android:drawableBottom="?android:attr/listChoiceIndicatorSingle"
+        android:layout_below="@+id/commentEditText"
+        android:layout_toStartOf="@+id/monRadioButton"
+        android:layout_alignTop="@+id/wedRadioButton" />
+
+    <RadioButton
+        android:id="@+id/monRadioButton"
+        android:text="@string/monday"
+        android:gravity="center_horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:button="@null"
+        android:drawableBottom="?android:attr/listChoiceIndicatorSingle"
+        android:layout_below="@+id/commentEditText"
+        android:layout_toStartOf="@+id/tueRadioButton"
+        android:layout_alignTop="@+id/wedRadioButton" />
+
+    <RadioButton
+        android:id="@+id/tueRadioButton"
+        android:text="@string/tuesday"
+        android:gravity="center_horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:button="@null"
+        android:drawableBottom="?android:attr/listChoiceIndicatorSingle"
+        android:layout_below="@+id/commentEditText"
+        android:layout_toStartOf="@+id/wedRadioButton"
+        android:layout_alignTop="@+id/wedRadioButton" />
+
+    <RadioButton
+        android:id="@+id/wedRadioButton"
+        android:text="@string/wednesday"
+        android:gravity="center_horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:button="@null"
+        android:drawableBottom="?android:attr/listChoiceIndicatorSingle"
+        android:layout_below="@+id/commentEditText"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp" />
+
+    <RadioButton
+        android:id="@+id/thuRadioButton"
+        android:text="@string/thursday"
+        android:gravity="center_horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:button="@null"
+        android:drawableBottom="?android:attr/listChoiceIndicatorSingle"
+        android:layout_alignTop="@+id/wedRadioButton"
+        android:layout_toEndOf="@+id/wedRadioButton" />
+
+    <RadioButton
+        android:id="@+id/friRadioButton"
+        android:text="@string/friday"
+        android:gravity="center_horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:button="@null"
+        android:drawableBottom="?android:attr/listChoiceIndicatorSingle"
+        android:layout_alignTop="@+id/wedRadioButton"
+        android:layout_toEndOf="@+id/thuRadioButton" />
+
+    <RadioButton
+        android:id="@+id/satRadioButton"
+        android:text="@string/saturday"
+        android:gravity="center_horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:button="@null"
+        android:drawableBottom="?android:attr/listChoiceIndicatorSingle"
+        android:layout_below="@+id/commentEditText"
+        android:layout_toEndOf="@+id/friRadioButton"
+        android:layout_alignParentEnd="false"
+        android:layout_alignParentStart="false"
+        android:layout_alignTop="@+id/wedRadioButton" />
+
+</RelativeLayout>
