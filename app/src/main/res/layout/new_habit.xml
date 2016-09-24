@@ -130,6 +130,8 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:id="@+id/dateTextView"
+        android:layout_above="@+id/commentEditText"
+        android:layout_toRightOf="@+id/pickDateButton"
         android:layout_marginTop="10dp"
         android:layout_marginBottom="10dp" />
 
