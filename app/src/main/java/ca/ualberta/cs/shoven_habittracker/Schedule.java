@@ -14,12 +14,8 @@ public class Schedule {
         this.schedule = new ArrayList<>();
     }
 
-    public Collection<Integer> getScheduleValue() {
+    public Collection<Integer> getSchedule() {
         return schedule;
-    }
-
-    public void setScheduleValue(Collection<Integer> schedule) {
-        this.schedule = schedule;
     }
 
     public Integer getSize() {
@@ -27,7 +23,9 @@ public class Schedule {
     }
 
     public void addToSchedule(Integer dayIndex) {
-        if( !schedule.contains(dayIndex) ) {
+        // do not add duplicates to the schedule
+        // all indices in a schedule must be in between 0 and 6 (7 days of the week)
+        if( !schedule.contains(dayIndex) && (dayIndex >= 0 && dayIndex < 7)  ) {
             schedule.add(dayIndex);
         }
     }

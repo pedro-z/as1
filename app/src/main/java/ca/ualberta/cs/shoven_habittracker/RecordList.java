@@ -2,7 +2,6 @@ package ca.ualberta.cs.shoven_habittracker;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.Date;
 
 /**
