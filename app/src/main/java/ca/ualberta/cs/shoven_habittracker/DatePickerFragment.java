@@ -1,4 +1,6 @@
-// this code from https://neurobin.org/docs/android/android-date-picker-example/
+// this code does not have a license
+// Found here: https://github.com/Aapps/DatePicker
+// https://neurobin.org/docs/android/android-date-picker-example/
 
 package ca.ualberta.cs.shoven_habittracker;
 
