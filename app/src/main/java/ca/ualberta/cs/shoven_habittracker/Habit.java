@@ -38,7 +38,7 @@ public class Habit {
     }
 
     public String getDate() {
-        return date.getFormattedDate();
+        return date.toString();
     }
 
     public String getComment() {

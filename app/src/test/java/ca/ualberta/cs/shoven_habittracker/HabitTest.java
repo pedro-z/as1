@@ -28,10 +28,10 @@ public class HabitTest {
         Habit habit3 = new Habit(habitName, date2, comment);
 
         assertTrue("Habit1 does not have name", habitName.equals(habit1.getName()));
-        assertTrue("Habit1 does not have date", date.getFormattedDate().equals(habit1.getDate()));
+        assertTrue("Habit1 does not have date", date.toString().equals(habit1.getDate()));
         assertFalse("Habit1 has comment", comment.equals(habit1.getComment()));
-        assertTrue("Habit2 does not have date", date.getFormattedDate().equals(habit2.getDate()));
-        assertTrue("Habit3 does not have date", date2.getFormattedDate().equals(habit3.getDate()));
+        assertTrue("Habit2 does not have date", date.toString().equals(habit2.getDate()));
+        assertTrue("Habit3 does not have date", date2.toString().equals(habit3.getDate()));
         assertTrue("Habit3 does not have comment", comment.equals(habit3.getComment()));
 
         String newHabitName = "New habit name";

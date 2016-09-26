@@ -3,30 +3,15 @@
     android:layout_width="match_parent" android:layout_height="match_parent">
 
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="@string/all_habits_title"
-        android:id="@+id/allHabitsTextView"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="10dp" />
-
-    <View
         android:layout_width="match_parent"
-        android:layout_height="2dp"
-        android:background="?android:attr/listDivider"
-        android:layout_below="@+id/allHabitsTextView"
-        android:layout_alignParentStart="true"
-        android:id="@+id/newTopSeparatorView"
-        android:layout_marginTop="10dp" />
+        android:layout_height="match_parent"
+        android:text="TEST" />
 
     <ListView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/newTopSeparatorView"
+        android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:id="@+id/allHabitsListView"/>
-
 
 </RelativeLayout>

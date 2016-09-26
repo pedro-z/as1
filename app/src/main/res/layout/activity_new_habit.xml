@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:id="@+id/activity_new_habit"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingBottom="@dimen/activity_vertical_margin"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_vertical_margin"
+        tools:context="ca.ualberta.cs.shoven_habittracker.NewHabitActivity">
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/habitNameEditText"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:hint="@string/name_hint"
+            android:layout_marginTop="10dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentStart="true" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_below="@+id/habitNameEditText"
+            android:id="@+id/linearLayout">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:orientation="horizontal"
+                android:layout_weight="1">
+
+                <ToggleButton
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/sundayToggleButton"
+                    android:layout_weight="0.5"
+                    android:textOff="@string/sunday"
+                    style="@android:style/Widget.Holo.Light.Button.Toggle"
+                    android:textOn="@string/sunday" />
+
+                <ToggleButton
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/mondayToggleButton"
+                    android:layout_weight="0.5"
+                    android:textOff="@string/monday"
+                    style="@android:style/Widget.Holo.Light.Button.Toggle"
+                    android:textOn="@string/monday" />
+
+                <ToggleButton
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/tuesdayToggleButton"
+                    android:layout_weight="0.5"
+                    android:textOff="@string/tuesday"
+                    style="@android:style/Widget.Holo.Light.Button.Toggle"
+                    android:textOn="@string/tuesday" />
+
+                <ToggleButton
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/wednesdayToggleButton"
+                    android:layout_weight="0.5"
+                    android:textOff="@string/wednesday"
+                    style="@android:style/Widget.Holo.Light.Button.Toggle"
+                    android:textOn="@string/wednesday" />
+
+                <ToggleButton
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/thursdayToggleButton"
+                    android:layout_weight="0.5"
+                    android:textOff="@string/thursday"
+                    style="@android:style/Widget.Holo.Light.Button.Toggle"
+                    android:textOn="@string/thursday" />
+
+                <ToggleButton
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/fridayToggleButton"
+                    android:layout_weight="0.5"
+                    android:textOff="@string/friday"
+                    style="@android:style/Widget.Holo.Light.Button.Toggle"
+                    android:textOn="@string/friday" />
+
+                <ToggleButton
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/saturdayToggleButton"
+                    android:layout_weight="0.5"
+                    android:textOff="@string/saturday"
+                    style="@android:style/Widget.Holo.Light.Button.Toggle"
+                    android:textOn="@string/saturday" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:srcCompat="@drawable/ic_date_picker"
+            android:layout_below="@+id/linearLayout"
+            android:layout_alignParentEnd="true"
+            android:id="@+id/pickDateButton"
+            android:onClick="showDatePickerDialog"
+            android:background="@drawable/ic_date_picker"
+            android:layout_marginTop="10dp"
+            android:contentDescription="@string/pick_date"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:id="@+id/dateTextView"
+            android:hint="@string/start_date"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="10dp"
+            android:layout_alignBottom="@+id/pickDateButton"
+            android:layout_alignParentStart="true" />
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="textMultiLine"
+            android:ems="10"
+            android:layout_marginTop="10dp"
+            android:id="@+id/commentEditText"
+            android:hint="@string/comment_hint"
+            android:layout_below="@+id/pickDateButton"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true" />
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/saveFab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:srcCompat="@drawable/ic_save"
+            app:backgroundTint="@color/colorAccent"
+            android:layout_gravity="bottom|end"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true" />
+
+    </RelativeLayout>
+
+</android.support.design.widget.CoordinatorLayout>

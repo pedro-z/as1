@@ -1,6 +1,7 @@
 // this code does not have a license
 // Found here: https://github.com/Aapps/DatePicker
 // https://neurobin.org/docs/android/android-date-picker-example/
+// I made changes to this code
 
 package ca.ualberta.cs.shoven_habittracker;
 
@@ -32,7 +33,8 @@ public class DatePickerFragment extends DialogFragment implements DatePickerDial
     public void onDateSet(DatePicker view, int year, int month, int day) {
         // Do something with the date chosen by the user
         TextView tv1= (TextView) getActivity().findViewById(R.id.dateTextView);
-        tv1.setText(view.getYear()+"-"+view.getMonth()+"-"+view.getDayOfMonth());
-
+        String monthStr = "0"+(view.getMonth()+1);
+        String dayStr = "0"+view.getDayOfMonth();
+        tv1.setText(view.getYear() + "-" + monthStr.substring(monthStr.length() - 2) + "-" + dayStr.substring(dayStr.length() - 2));
     }
 }

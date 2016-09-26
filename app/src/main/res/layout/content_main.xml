@@ -35,7 +35,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="date"
+        android:text=""
         android:id="@+id/todayDateTextView"
         android:layout_below="@+id/mainTopSeparatorView"
         android:layout_centerHorizontal="true"

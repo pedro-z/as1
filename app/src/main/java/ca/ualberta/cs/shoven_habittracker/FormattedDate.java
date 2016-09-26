@@ -29,7 +29,11 @@ public class FormattedDate {
         this.day = calendar.get(Calendar.DAY_OF_MONTH);
     }
 
-    public String getFormattedDate() {
-        return Integer.toString(year) + "-" + Integer.toString(month) + "-" + Integer.toString(day);
+    public String toString() {
+        String monthStr = "0" + Integer.toString(month);
+        String dayStr = "0" + Integer.toString(day);
+        return Integer.toString(year) + "-"
+                + monthStr.substring(monthStr.length()-2) + "-"
+                + dayStr.substring(dayStr.length()-2);
     }
 }
