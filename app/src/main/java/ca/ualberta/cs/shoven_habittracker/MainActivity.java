@@ -18,12 +18,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 package ca.ualberta.cs.shoven_habittracker;
 
+import android.content.DialogInterface;
 import android.content.Intent;
-import android.icu.text.DateFormat;
-import android.icu.text.SimpleDateFormat;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v7.app.AlertDialog;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -36,9 +36,9 @@ import android.view.MenuItem;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.text.ParseException;
-import java.util.Calendar;
-import java.util.Date;
+import org.joda.time.DateTimeZone;
+import org.joda.time.LocalDateTime;
+
 import java.util.Locale;
 
 
@@ -52,10 +52,12 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        // Change this to get full date string
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
+        navigationView.getMenu().getItem(0).setChecked(true);
+
         TextView dateTextView = (TextView) findViewById(R.id.todayDateTextView);
-        FormattedDate now = new FormattedDate();
-        dateTextView.setText(now.toString());
+        setDateToday(dateTextView);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.mainFab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -71,10 +73,6 @@ public class MainActivity extends AppCompatActivity
             this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
         toggle.syncState();
-
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
-        navigationView.getMenu().getItem(0).setChecked(true);
     }
 
     @Override
@@ -118,7 +116,7 @@ public class MainActivity extends AppCompatActivity
         if (id == R.id.nav_today) {
 
         } else if ( id == R.id.nav_all_habits) {
-            Intent intent = new Intent(MainActivity.this, AllHabitsActivity.class);
+            Intent intent = new Intent(MainActivity.this, HabitHomepageActivity.class);
             startActivity(intent);
         } else if (id == R.id.nav_history) {
             Intent intent = new Intent(MainActivity.this, HistoryActivity.class);
@@ -126,10 +124,21 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_statistics) {
             Intent intent = new Intent(MainActivity.this, StatisticsActivity.class);
             startActivity(intent);
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
-
+        } else if (id == R.id.nav_delete) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setMessage(R.string.check_if_clear);
+            builder.setPositiveButton(R.string.clear_all_data, new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int id) {
+                    Toast.makeText(MainActivity.this, "All data cleared", Toast.LENGTH_SHORT).show();
+                }
+            });
+            builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int id) {
+                    // User cancelled the dialog
+                }
+            });
+            AlertDialog dialog = builder.create();
+            dialog.show();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -137,11 +146,9 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
-    public void editHabit(MenuItem Menu) {
-        Toast.makeText(this, "Edit Habit", Toast.LENGTH_SHORT);
-    }
+    public void setDateToday(TextView textView) {
+        LocalDateTime now = new LocalDateTime(DateTimeZone.forID("Canada/Mountain"));
+        textView.setText(now.toString("EEEE, MMMM dd, yyyy", Locale.CANADA));
 
-    public void deleteHabit(MenuItem Menu) {
-        Toast.makeText(this, "Delete Habit", Toast.LENGTH_SHORT);
     }
 }

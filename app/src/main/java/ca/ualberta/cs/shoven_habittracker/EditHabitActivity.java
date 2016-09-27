@@ -7,31 +7,29 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.CompoundButton;
-import android.widget.TextView;
 import android.widget.ToggleButton;
 
-public class NewHabitActivity extends AppCompatActivity {
+public class EditHabitActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_new_habit);
+        setContentView(R.layout.activity_edit_habit);
 
-        TextView textView = (TextView) findViewById(R.id.pickDateTextView);
-        textView.setText(new FormattedDate().toString());
+        // START THIS ACTIVITY WITH THE INFORMATION FILLED IN (i.e. name, schedule, comment)
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.saveFab);
-        fab.setOnClickListener(new View.OnClickListener() {
+        FloatingActionButton editFab = (FloatingActionButton) findViewById(R.id.saveEditFab);
+        editFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Habit saved", Snackbar.LENGTH_LONG)
+                Snackbar.make(view, "Habit update saved", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
                 // add habit object
                 finish();
             }
         });
 
-        ToggleButton sundayToggle = (ToggleButton) findViewById(R.id.sundayToggleButton);
+        ToggleButton sundayToggle = (ToggleButton) findViewById(R.id.editSundayToggleButton);
         sundayToggle.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
@@ -42,7 +40,7 @@ public class NewHabitActivity extends AppCompatActivity {
             }
         });
 
-        ToggleButton mondayToggle = (ToggleButton) findViewById(R.id.mondayToggleButton);
+        ToggleButton mondayToggle = (ToggleButton) findViewById(R.id.editMondayToggleButton);
         mondayToggle.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
@@ -53,7 +51,7 @@ public class NewHabitActivity extends AppCompatActivity {
             }
         });
 
-        ToggleButton tuesdayToggle = (ToggleButton) findViewById(R.id.tuesdayToggleButton);
+        ToggleButton tuesdayToggle = (ToggleButton) findViewById(R.id.editTuesdayToggleButton);
         tuesdayToggle.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
@@ -64,7 +62,7 @@ public class NewHabitActivity extends AppCompatActivity {
             }
         });
 
-        ToggleButton wednesdayToggle = (ToggleButton) findViewById(R.id.wednesdayToggleButton);
+        ToggleButton wednesdayToggle = (ToggleButton) findViewById(R.id.editWednesdayToggleButton);
         wednesdayToggle.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
@@ -75,7 +73,7 @@ public class NewHabitActivity extends AppCompatActivity {
             }
         });
 
-        ToggleButton thursdayToggle = (ToggleButton) findViewById(R.id.thursdayToggleButton);
+        ToggleButton thursdayToggle = (ToggleButton) findViewById(R.id.editThursdayToggleButton);
         thursdayToggle.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
@@ -86,7 +84,7 @@ public class NewHabitActivity extends AppCompatActivity {
             }
         });
 
-        ToggleButton fridayToggle = (ToggleButton) findViewById(R.id.fridayToggleButton);
+        ToggleButton fridayToggle = (ToggleButton) findViewById(R.id.editFridayToggleButton);
         fridayToggle.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
@@ -97,7 +95,7 @@ public class NewHabitActivity extends AppCompatActivity {
             }
         });
 
-        ToggleButton saturdayToggle = (ToggleButton) findViewById(R.id.saturdayToggleButton);
+        ToggleButton saturdayToggle = (ToggleButton) findViewById(R.id.editSaturdayToggleButton);
         saturdayToggle.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {

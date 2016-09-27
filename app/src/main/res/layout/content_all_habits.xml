@@ -13,11 +13,6 @@
     tools:context="ca.ualberta.cs.shoven_habittracker.AllHabitsActivity"
     tools:showIn="@layout/app_bar_all_habits">
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="TEST" />
-
     <ListView
         android:layout_width="match_parent"
         android:layout_height="match_parent"

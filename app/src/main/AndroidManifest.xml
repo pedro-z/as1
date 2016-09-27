@@ -31,7 +31,10 @@
             android:label="@string/title_activity_statistics"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".NewHabit" />
-        <activity android:name=".NewHabitActivity"></activity>
+        <activity android:name=".NewHabitActivity" />
+        <activity android:name=".HabitHomepage" />
+        <activity android:name=".HabitHomepageActivity" />
+        <activity android:name=".EditHabitActivity"></activity>
     </application>
 
 </manifest>

@@ -26,7 +26,7 @@
     <!-- habit_homepage.xml -->
     <string name="test_habit_name_title">Habit Name</string>
     <string name="complete_habit">Complete Habit</string>
-    <string name="habit_count">times today</string>
+    <string name="habit_count">Times today</string>
 
     <!-- all_habits.xml -->
     <string name="all_habits_title">ALL HABITS</string>
@@ -39,4 +39,15 @@
     <string name="title_activity_all_habits">All Habits</string>
     <string name="title_activity_statistics">Statistics</string>
     <string name="start_date">Start Date</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="check_if_clear">This action cannot be undone.\n\nAre you sure you want to clear all data?</string>
+    <string name="clear_all_data">Clear</string>
+    <string name="cancel">Cancel</string>
+    <string name="title_activity_habit_homepage">HabitHomepage</string>
+    <string name="complete_habit_button_content_description">Complete Habit Button</string>
+    <string name="streak_count">Streak</string>
+    <string name="check_if_delete_habit">Delete habit?</string>
+    <string name="delete_habit">Delete</string>
 </resources>

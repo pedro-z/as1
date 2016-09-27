@@ -1,60 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent" android:layout_height="match_parent">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="@string/test_habit_name_title"
-        android:id="@+id/habitNameTextView"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="10dp" />
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="2dp"
-        android:background="?android:attr/listDivider"
-        android:id="@+id/habitTopSeparatorView"
-        android:layout_below="@+id/habitNameTextView"
-        android:layout_alignParentEnd="true"
-        android:layout_marginTop="10dp" />
+    <ImageButton
+        android:layout_width="0dp"
+        android:layout_height="fill_parent"
+        app:srcCompat="@drawable/ic_check_circle"
+        android:id="@+id/completeHabitButton"
+        android:background="@drawable/ic_check_circle"
+        android:layout_alignParentTop="true" />
 
     <View
         android:layout_width="match_parent"
         android:layout_height="2dp"
         android:background="?android:attr/listDivider"
         android:id="@+id/habitMiddleSeparatorView"
-        android:layout_below="@+id/habitTopSeparatorView"
-        android:layout_alignParentEnd="true"
-        android:layout_marginTop="200dp" />
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/complete_habit"
-        android:id="@+id/completeHabitButton"
-        android:layout_below="@+id/habitTopSeparatorView"
-        android:layout_centerHorizontal="true" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:id="@+id/habitCount"
+        android:layout_marginTop="27dp"
         android:layout_below="@+id/completeHabitButton"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="33dp" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="@string/habit_count"
-        android:id="@+id/habitCountText"
-        android:layout_below="@+id/habitCount"
-        android:layout_centerHorizontal="true" />
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="10dp" />
 
     <ExpandableListView
         android:layout_width="wrap_content"
