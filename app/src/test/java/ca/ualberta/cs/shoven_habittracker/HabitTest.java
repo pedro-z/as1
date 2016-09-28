@@ -43,6 +43,11 @@ public class HabitTest {
     }
 
     @Test
+    public void testHabitList() {
+        // TODO write HabitList tests
+    }
+
+    @Test
     public void testSchedule() {
         Schedule newSchedule = new Schedule();
         newSchedule.addToSchedule(2);

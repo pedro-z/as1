@@ -8,11 +8,11 @@ import java.util.Collection;
  */
 public class DailySchedule {
     private Integer dayIndex;
-    private Collection<Habit> habits;
+    private HabitList habits;
 
     public DailySchedule(Integer dayIndex) {
         this.dayIndex = dayIndex;
-        this.habits = new ArrayList<>();
+        this.habits = new HabitList();
     }
 
     public Integer getDayIndex() {
@@ -20,16 +20,12 @@ public class DailySchedule {
     }
 
     public Collection<Habit> getHabits() {
-        return habits;
+        return habits.getHabitList();
     }
 
-    public void addHabit(Habit habit) {
-        if(!habits.contains(habit)) {
-            this.habits.add(habit);
-        }
-    }
+    public void addHabit(Habit habit) { this.habits.addHabit(habit); }
 
     public void removeHabit(Habit habit) {
-        this.habits.remove(habit);
+        this.habits.removeHabit(habit);
     }
 }
