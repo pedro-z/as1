@@ -24,9 +24,19 @@
         android:layout_width="match_parent"
         android:layout_height="2dp"
         android:background="?android:attr/listDivider"
-        android:id="@+id/habitSeparatorView"
+        android:id="@+id/habitHomepageSeparatorView"
         android:layout_marginTop="10dp"
         android:layout_below="@+id/streakTextView"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="10dp" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="?android:attr/listDivider"
+        android:id="@+id/habitHomepageMiddleSeparatorView"
+        android:layout_marginTop="10dp"
+        android:layout_below="@+id/habitHomepageCommentTextView"
         android:layout_alignParentEnd="true"
         android:layout_marginEnd="10dp" />
 
@@ -34,7 +44,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/habitHistoryExpandableListView"
-        android:layout_below="@+id/habitSeparatorView"
+        android:layout_below="@+id/habitHomepageMiddleSeparatorView"
         android:layout_centerHorizontal="true" />
 
     <TextView
@@ -81,5 +91,14 @@
         android:layout_above="@+id/streakTextView"
         android:layout_toStartOf="@+id/completeHabitButton"
         android:textColor="#FFFFFF"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/habitHomepageCommentTextView"
+        android:text=""
+        android:layout_below="@+id/habitHomepageSeparatorView"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="10dp" />
 
 </RelativeLayout>

@@ -8,13 +8,13 @@ import java.util.Collection;
  */
 
 public class HabitList {
-    private Collection<Habit> habitList;
+    private ArrayList<Habit> habitList;
 
     public HabitList() {
         this.habitList = new ArrayList<>();
     }
 
-    public Collection<Habit> getHabitList() {
+    public ArrayList<Habit> getHabitList() {
         return habitList;
     }
 
@@ -26,11 +26,15 @@ public class HabitList {
 
     public void removeHabit(Habit habit) {
         if(habitList.contains(habit)) {
-            this.habitList.add(habit);
+            this.habitList.remove(habit);
         }
     }
 
     public void clear() {
         this.habitList = new ArrayList<>();
+    }
+
+    public boolean hasHabit(Habit habit) {
+        return habitList.contains(habit);
     }
 }

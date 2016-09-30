@@ -9,16 +9,23 @@ import java.util.Dictionary;
  */
 public class WeeklySchedule {
     private ArrayList<DailySchedule> weeklySchedule;
+    private HabitList habitList;
 
     public WeeklySchedule() {
         this.weeklySchedule = new ArrayList<>();
         for(int i = 0; i < 7; i++) {
             weeklySchedule.add(new DailySchedule(i));
         }
+        this.habitList = new HabitList();
     }
 
     public ArrayList<DailySchedule> getWeeklySchedule() {
         return weeklySchedule;
+    }
+
+
+    public HabitList getAllHabits() {
+        return habitList;
     }
 
     public DailySchedule getDailySchedule(Integer dayIndex) {
@@ -40,32 +47,28 @@ public class WeeklySchedule {
         return habitSchedule;
     }
 
-    public Collection<Habit> getAllHabits() {
-        Collection<Habit> habits = new ArrayList<>();
-        for(DailySchedule dailySchedule : weeklySchedule) {
-            for(Habit habit : dailySchedule.getHabits()) {
-                if(!habits.contains(habit)) {
-                    habits.add(habit);
-                }
+    public boolean hasHabit(Habit habit) {
+        return habitList.hasHabit(habit);
+    }
+
+    public void addHabit(Habit habit, Schedule schedule) {
+        this.habitList.addHabit(habit);
+        if (schedule != null) {
+            for(Integer day : schedule.getSchedule()) {
+                weeklySchedule.get(day).addHabit(habit);
             }
         }
-        return habits;
     }
 
-    public void addHabitSchedule(Habit habit, Schedule schedule) {
-        for(Integer day : schedule.getSchedule()) {
-            weeklySchedule.get(day).addHabit(habit);
-        }
-    }
-
-    public void removeHabitSchedule(Habit habit) {
+    public void removeHabit(Habit habit) {
+        this.habitList.removeHabit(habit);
         for(DailySchedule dailySchedule : weeklySchedule) {
             dailySchedule.removeHabit(habit);
         }
     }
 
     public void updateHabitSchedule(Habit habit, Schedule newSchedule) {
-        removeHabitSchedule(habit);
-        addHabitSchedule(habit, newSchedule);
+        removeHabit(habit);
+        addHabit(habit, newSchedule);
     }
 }

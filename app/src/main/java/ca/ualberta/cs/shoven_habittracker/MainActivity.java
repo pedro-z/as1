@@ -23,7 +23,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -33,17 +32,21 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import org.joda.time.DateTimeZone;
 import org.joda.time.LocalDateTime;
 
+import java.util.ArrayList;
 import java.util.Locale;
 
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener, AdapterView.OnItemClickListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,11 +56,14 @@ public class MainActivity extends AppCompatActivity
         setSupportActionBar(toolbar);
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
-        navigationView.getMenu().getItem(0).setChecked(true);
+        setNavigator(navigationView);
 
         TextView dateTextView = (TextView) findViewById(R.id.todayDateTextView);
-        setDateToday(dateTextView);
+        Integer dayOfWeek = setDateToday(dateTextView);
+
+        ListView listView = (ListView) findViewById(R.id.mainHabitsExpandableListView);
+        setHabitListView(listView, dayOfWeek);
+        listView.setOnItemClickListener(this);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.mainFab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -146,9 +152,30 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
-    public void setDateToday(TextView textView) {
+    public Integer setDateToday(TextView textView) {
         LocalDateTime now = new LocalDateTime(DateTimeZone.forID("Canada/Mountain"));
         textView.setText(now.toString("EEEE, MMMM dd, yyyy", Locale.CANADA));
+        return now.getDayOfWeek();
+    }
 
+    public void setNavigator(NavigationView navigationView) {
+        navigationView.setNavigationItemSelectedListener(this);
+        navigationView.getMenu().getItem(0).setChecked(true);
+    }
+
+    public void setHabitListView(ListView listView, Integer dayOfWeek) {
+        ArrayList<Habit> habitList = new WeeklyScheduleController().getDailySchedule(dayOfWeek).getHabits();
+        ArrayAdapter<Habit> habitAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, habitList);
+        listView.setAdapter(habitAdapter);
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+        Intent intent = new Intent();
+        intent.setClass(this, HabitHomepageActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putInt("position", position);
+        intent.putExtras(bundle);
+        startActivity(intent);
     }
 }

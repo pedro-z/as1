@@ -149,7 +149,8 @@
             app:backgroundTint="@color/colorAccent"
             android:layout_gravity="bottom|end"
             android:layout_alignParentBottom="true"
-            android:layout_alignParentEnd="true" />
+            android:layout_alignParentEnd="true"
+            android:onClick="addHabit" />
 
     </RelativeLayout>
 

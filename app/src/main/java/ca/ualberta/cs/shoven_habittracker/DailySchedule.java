@@ -19,7 +19,7 @@ public class DailySchedule {
         return dayIndex;
     }
 
-    public Collection<Habit> getHabits() {
+    public ArrayList<Habit> getHabits() {
         return habits.getHabitList();
     }
 
@@ -27,5 +27,13 @@ public class DailySchedule {
 
     public void removeHabit(Habit habit) {
         this.habits.removeHabit(habit);
+    }
+
+    public boolean hasHabit( Habit habit ) {
+        return this.habits.hasHabit(habit);
+    }
+
+    public void clear() {
+        this.habits.clear();
     }
 }

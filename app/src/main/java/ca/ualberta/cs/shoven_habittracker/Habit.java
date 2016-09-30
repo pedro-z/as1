@@ -29,6 +29,10 @@ public class Habit {
         this.comment = comment;
     }
 
+    public String toString() {
+        return getName();
+    }
+
     public String getName() {
         return name;
     }

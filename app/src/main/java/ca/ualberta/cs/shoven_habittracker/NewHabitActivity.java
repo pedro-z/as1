@@ -7,15 +7,20 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.CompoundButton;
+import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.ToggleButton;
 
-public class NewHabitActivity extends AppCompatActivity {
+import java.util.Date;
 
+public class NewHabitActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_habit);
+        final Schedule schedule = new Schedule();
+        final Integer sun = 0, mon = 1, tue = 2, wed = 3, thu = 4, fri = 5, sat = 6;
 
         TextView textView = (TextView) findViewById(R.id.pickDateTextView);
         textView.setText(new FormattedDate().toString());
@@ -24,9 +29,7 @@ public class NewHabitActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Habit saved", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-                // add habit object
+                saveNewHabit(view, schedule);
                 finish();
             }
         });
@@ -36,8 +39,10 @@ public class NewHabitActivity extends AppCompatActivity {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
                     // The toggle is enabled
+                    schedule.addToSchedule(sun);
                 } else {
                     // The toggle is disabled
+                    schedule.removeFromSchedule(sun);
                 }
             }
         });
@@ -47,8 +52,10 @@ public class NewHabitActivity extends AppCompatActivity {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
                     // The toggle is enabled
+                    schedule.addToSchedule(mon);
                 } else {
                     // The toggle is disabled
+                    schedule.removeFromSchedule(mon);
                 }
             }
         });
@@ -58,8 +65,10 @@ public class NewHabitActivity extends AppCompatActivity {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
                     // The toggle is enabled
+                    schedule.addToSchedule(tue);
                 } else {
                     // The toggle is disabled
+                    schedule.removeFromSchedule(tue);
                 }
             }
         });
@@ -69,8 +78,10 @@ public class NewHabitActivity extends AppCompatActivity {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
                     // The toggle is enabled
+                    schedule.addToSchedule(wed);
                 } else {
                     // The toggle is disabled
+                    schedule.removeFromSchedule(wed);
                 }
             }
         });
@@ -80,8 +91,10 @@ public class NewHabitActivity extends AppCompatActivity {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
                     // The toggle is enabled
+                    schedule.addToSchedule(thu);
                 } else {
                     // The toggle is disabled
+                    schedule.addToSchedule(thu);
                 }
             }
         });
@@ -91,8 +104,10 @@ public class NewHabitActivity extends AppCompatActivity {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
                     // The toggle is enabled
+                    schedule.removeFromSchedule(fri);
                 } else {
                     // The toggle is disabled
+                    schedule.removeFromSchedule(fri);
                 }
             }
         });
@@ -102,8 +117,10 @@ public class NewHabitActivity extends AppCompatActivity {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
                     // The toggle is enabled
+                    schedule.addToSchedule(sat);
                 } else {
                     // The toggle is disabled
+                    schedule.removeFromSchedule(sat);
                 }
             }
         });
@@ -112,5 +129,26 @@ public class NewHabitActivity extends AppCompatActivity {
     public void showDatePickerDialog(View v) {
         DialogFragment newFragment = new DatePickerFragment();
         newFragment.show(getSupportFragmentManager(), "datePicker");
+    }
+
+    // TODO possible error handling on saveNewHabit??
+    public void saveNewHabit(View v, Schedule schedule) {
+        // TODO do they have to give the habit a name??
+        EditText habitName = (EditText) findViewById(R.id.habitNameEditText);
+        TextView habitDate = (TextView) findViewById(R.id.pickDateTextView);
+        EditText habitComment = (EditText) findViewById(R.id.commentEditText);
+
+        String[] splitDate = habitDate.getText().toString().split("-");
+        Integer year = Integer.parseInt(splitDate[0]);
+        Integer month = Integer.parseInt(splitDate[1]);
+        Integer day = Integer.parseInt(splitDate[2]);
+        FormattedDate date = new FormattedDate(year, month, day);
+
+        Habit habit = new Habit(habitName.getText().toString(), date, habitComment.getText().toString());
+
+        WeeklyScheduleController controller = new WeeklyScheduleController();
+        controller.addHabit(habit, schedule);
+
+        Toast.makeText(this, "Habit added", Toast.LENGTH_SHORT).show();
     }
 }
