@@ -1,13 +1,16 @@
 package ca.ualberta.cs.shoven_habittracker;
 
+import android.support.annotation.NonNull;
+
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Objects;
 
 /**
  * Created by shoven on 2016-09-24.
  */
 
-public class FormattedDate {
+public class FormattedDate implements Comparable {
     private Integer year;
     private Integer month;
     private Integer day;
@@ -59,5 +62,10 @@ public class FormattedDate {
         return Integer.toString(year) + "-"
                 + monthStr.substring(monthStr.length()-2) + "-"
                 + dayStr.substring(dayStr.length()-2);
+    }
+
+    @Override
+    public int compareTo(@NonNull Object another) throws ClassCastException {
+        return (another.toString().compareTo(this.toString()));
     }
 }

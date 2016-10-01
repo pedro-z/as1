@@ -15,6 +15,8 @@ import org.joda.time.LocalDateTime;
 
 import java.util.ArrayList;
 
+// TODO add schedule to the habit homepage view
+
 public class HabitHomepageActivity extends AppCompatActivity {
     private Integer position;
     private String activity;
@@ -92,10 +94,9 @@ public class HabitHomepageActivity extends AppCompatActivity {
             public void onClick(DialogInterface dialog, int id) {
                 Toast.makeText(HabitHomepageActivity.this, "Habit deleted", Toast.LENGTH_SHORT).show();
                 WeeklyScheduleController controller = new WeeklyScheduleController();
-                int dayIndex = new LocalDateTime(DateTimeZone.forID("Canada/Mountain")).getDayOfWeek();
                 Bundle bundle = getIntent().getExtras();
                 Integer position = bundle.getInt("position");
-                Habit habit = controller.getDailySchedule(dayIndex).getHabits().get(position);
+                Habit habit = controller.getAllHabits().getHabitList().get(position);
                 controller.removeHabit(habit);
                 finish();
             }

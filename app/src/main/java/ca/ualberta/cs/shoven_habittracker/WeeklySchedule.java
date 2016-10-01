@@ -92,6 +92,7 @@ public class WeeklySchedule {
         for(DailySchedule dailySchedule : weeklySchedule) {
             dailySchedule.removeHabit(habit);
         }
+        notifyListeners();
     }
 
     public void updateHabitSchedule(Habit habit, Schedule newSchedule, Integer position) {
@@ -101,5 +102,6 @@ public class WeeklySchedule {
                 dailySchedule.insertHabit(habit, position);
             }
         }
+        notifyListeners();
     }
 }

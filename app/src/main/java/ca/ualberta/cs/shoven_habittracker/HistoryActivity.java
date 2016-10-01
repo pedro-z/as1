@@ -77,15 +77,16 @@ public class HistoryActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_today) {
-            Intent intent = new Intent(HistoryActivity.this, MainActivity.class);
-            startActivity(intent);
+            this.finish();
         } else if ( id == R.id.nav_all_habits) {
             Intent intent = new Intent(HistoryActivity.this, AllHabitsActivity.class);
+            this.finish();
             startActivity(intent);
         } else if (id == R.id.nav_history) {
 
         } else if (id == R.id.nav_statistics) {
             Intent intent = new Intent(HistoryActivity.this, StatisticsActivity.class);
+            this.finish();
             startActivity(intent);
         } else if (id == R.id.nav_delete) {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);

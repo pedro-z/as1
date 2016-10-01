@@ -24,6 +24,7 @@ public class NewHabitActivity extends AppCompatActivity {
 
         TextView textView = (TextView) findViewById(R.id.pickDateTextView);
         textView.setText(new FormattedDate().toString());
+        // TODO don't let the user choose a date in the future
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.saveFab);
         fab.setOnClickListener(new View.OnClickListener() {

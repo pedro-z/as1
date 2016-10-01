@@ -45,6 +45,7 @@ import java.util.ArrayList;
 import java.util.Locale;
 
 
+
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, AdapterView.OnItemClickListener {
 
@@ -68,6 +69,7 @@ public class MainActivity extends AppCompatActivity
 
         listView.setOnItemClickListener(this);
 
+        // TODO not updating the main listView when you delete a habit OR remove the habit from that day's schedule
         WeeklyScheduleController.getWeeklySchedule().addListener(new Listener() {
             @Override
             public void update() {

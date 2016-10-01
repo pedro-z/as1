@@ -77,13 +77,14 @@ public class StatisticsActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_today) {
-            Intent intent = new Intent(StatisticsActivity.this, MainActivity.class);
-            startActivity(intent);
+            this.finish();
         } else if ( id == R.id.nav_all_habits) {
             Intent intent = new Intent(StatisticsActivity.this, AllHabitsActivity.class);
+            this.finish();
             startActivity(intent);
         } else if (id == R.id.nav_history) {
             Intent intent = new Intent(StatisticsActivity.this, HistoryActivity.class);
+            this.finish();
             startActivity(intent);
         } else if (id == R.id.nav_statistics) {
 

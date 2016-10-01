@@ -3,6 +3,7 @@ package ca.ualberta.cs.shoven_habittracker;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
@@ -98,15 +99,16 @@ public class AllHabitsActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_today) {
-            Intent intent = new Intent(AllHabitsActivity.this, MainActivity.class);
-            startActivity(intent);
+            this.finish();
         } else if ( id == R.id.nav_all_habits) {
 
         } else if (id == R.id.nav_history) {
             Intent intent = new Intent(AllHabitsActivity.this, HistoryActivity.class);
+            this.finish();
             startActivity(intent);
         } else if (id == R.id.nav_statistics) {
             Intent intent = new Intent(AllHabitsActivity.this, StatisticsActivity.class);
+            this.finish();
             startActivity(intent);
         } else if (id == R.id.nav_delete) {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);

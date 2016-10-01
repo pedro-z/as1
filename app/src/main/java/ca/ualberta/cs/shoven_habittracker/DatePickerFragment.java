@@ -7,6 +7,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 import android.widget.DatePicker;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.joda.time.DateTimeZone;
 import org.joda.time.LocalDateTime;
@@ -27,7 +28,9 @@ public class DatePickerFragment extends DialogFragment implements DatePickerDial
     @Override
     @NonNull
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        return new DatePickerDialog(getActivity(), this, year, month, day);
+        DatePickerDialog dialog = new DatePickerDialog(getActivity(), this, year, month, day);
+        dialog.getDatePicker().setMaxDate(System.currentTimeMillis());
+        return dialog;
     }
 
     @Override
