@@ -94,7 +94,7 @@ public class NewHabitActivity extends AppCompatActivity {
                     schedule.addToSchedule(thu);
                 } else {
                     // The toggle is disabled
-                    schedule.addToSchedule(thu);
+                    schedule.removeFromSchedule(thu);
                 }
             }
         });
@@ -104,7 +104,7 @@ public class NewHabitActivity extends AppCompatActivity {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
                     // The toggle is enabled
-                    schedule.removeFromSchedule(fri);
+                    schedule.addToSchedule(fri);
                 } else {
                     // The toggle is disabled
                     schedule.removeFromSchedule(fri);

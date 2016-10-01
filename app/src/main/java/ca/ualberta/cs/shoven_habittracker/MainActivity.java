@@ -22,16 +22,16 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v7.app.AlertDialog;
-import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
@@ -59,11 +59,21 @@ public class MainActivity extends AppCompatActivity
         setNavigator(navigationView);
 
         TextView dateTextView = (TextView) findViewById(R.id.todayDateTextView);
-        Integer dayOfWeek = setDateToday(dateTextView);
+        final Integer dayOfWeek = setDateToday(dateTextView);
 
-        ListView listView = (ListView) findViewById(R.id.mainHabitsExpandableListView);
-        setHabitListView(listView, dayOfWeek);
+        ListView listView = (ListView) findViewById(R.id.mainHabitsListView);
+        final ArrayList<Habit> habitList = new WeeklyScheduleController().getDailySchedule(dayOfWeek).getHabits();
+        final ArrayAdapter<Habit> habitAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, habitList);
+        listView.setAdapter(habitAdapter);
+
         listView.setOnItemClickListener(this);
+
+        WeeklyScheduleController.getWeeklySchedule().addListener(new Listener() {
+            @Override
+            public void update() {
+                habitAdapter.notifyDataSetChanged();
+            }
+        });
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.mainFab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -122,7 +132,7 @@ public class MainActivity extends AppCompatActivity
         if (id == R.id.nav_today) {
 
         } else if ( id == R.id.nav_all_habits) {
-            Intent intent = new Intent(MainActivity.this, HabitHomepageActivity.class);
+            Intent intent = new Intent(MainActivity.this, AllHabitsActivity.class);
             startActivity(intent);
         } else if (id == R.id.nav_history) {
             Intent intent = new Intent(MainActivity.this, HistoryActivity.class);
@@ -163,18 +173,13 @@ public class MainActivity extends AppCompatActivity
         navigationView.getMenu().getItem(0).setChecked(true);
     }
 
-    public void setHabitListView(ListView listView, Integer dayOfWeek) {
-        ArrayList<Habit> habitList = new WeeklyScheduleController().getDailySchedule(dayOfWeek).getHabits();
-        ArrayAdapter<Habit> habitAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, habitList);
-        listView.setAdapter(habitAdapter);
-    }
-
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
         Intent intent = new Intent();
         intent.setClass(this, HabitHomepageActivity.class);
         Bundle bundle = new Bundle();
         bundle.putInt("position", position);
+        bundle.putString("activity", "MainActivity");
         intent.putExtras(bundle);
         startActivity(intent);
     }

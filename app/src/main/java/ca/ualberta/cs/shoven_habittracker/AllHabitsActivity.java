@@ -15,10 +15,18 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.Toast;
 
+import org.joda.time.DateTimeZone;
+import org.joda.time.LocalDateTime;
+
+import java.util.ArrayList;
+
 public class AllHabitsActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener, AdapterView.OnItemClickListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +44,19 @@ public class AllHabitsActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         navigationView.getMenu().getItem(1).setChecked(true);
+
+        ListView listView = (ListView) findViewById(R.id.allHabitsListView);
+        final ArrayList<Habit> habitList = new WeeklyScheduleController().getAllHabits().getHabitList();
+        final ArrayAdapter<Habit> habitAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, habitList);
+        listView.setAdapter(habitAdapter);
+        listView.setOnItemClickListener(AllHabitsActivity.this);
+
+        WeeklyScheduleController.getWeeklySchedule().addListener(new Listener() {
+            @Override
+            public void update() {
+                habitAdapter.notifyDataSetChanged();
+            }
+        });
     }
 
     @Override
@@ -107,5 +128,16 @@ public class AllHabitsActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+        Intent intent = new Intent();
+        intent.setClass(this, HabitHomepageActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putInt("position", position);
+        bundle.putString("activity", "AllHabitsActivity");
+        intent.putExtras(bundle);
+        startActivity(intent);
     }
 }

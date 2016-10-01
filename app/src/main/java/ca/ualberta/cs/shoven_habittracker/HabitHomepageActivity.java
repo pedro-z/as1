@@ -16,13 +16,41 @@ import org.joda.time.LocalDateTime;
 import java.util.ArrayList;
 
 public class HabitHomepageActivity extends AppCompatActivity {
+    private Integer position;
+    private String activity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_habit_homepage);
 
-        updateHabitDetails();
+        int dayIndex = new LocalDateTime(DateTimeZone.forID("Canada/Mountain")).getDayOfWeek();
+        Bundle bundle = getIntent().getExtras();
+        position = bundle.getInt("position");
+        activity = bundle.getString("activity");
+        WeeklyScheduleController controller = new WeeklyScheduleController();
+        Habit habitToSet;
+        //Toast.makeText(this, "" + position + " " + activity, Toast.LENGTH_SHORT).show();
+        if (activity.equals("MainActivity")) {
+            Habit dayIndexHabit = controller.getDailySchedule(dayIndex).getHabits().get(position);
+            position = controller.getAllHabits().getHabitIndex(dayIndexHabit);
+            activity = "AllHabitsActivity";
+        }
+        habitToSet = controller.getAllHabits().getHabitList().get(position);
+        //Toast.makeText(this, "" + position + " " + activity, Toast.LENGTH_SHORT).show();
+        final Habit habit = habitToSet;
+        if (habit != null) {
+            updateHabitDetails(habit);
+            habit.addListener(new Listener() {
+                @Override
+                public void update() {
+                    updateHabitDetails(habit);
+                }
+            });
+        } else {
+            Toast.makeText(this, "Unknown habit", Toast.LENGTH_SHORT).show();
+            finish();
+        }
     }
 
     @Override
@@ -50,9 +78,9 @@ public class HabitHomepageActivity extends AppCompatActivity {
     public void editHabit(MenuItem Menu) {
         Toast.makeText(this, "Edit Habit", Toast.LENGTH_SHORT).show();
         Intent intent = new Intent(HabitHomepageActivity.this, EditHabitActivity.class);
-        Bundle bundle = getIntent().getExtras();
-        Integer position = bundle.getInt("position");
+        Bundle bundle = new Bundle();
         bundle.putInt("position", position);
+        bundle.putString("activity", activity);
         intent.putExtras(bundle);
         startActivity(intent);
     }
@@ -81,11 +109,7 @@ public class HabitHomepageActivity extends AppCompatActivity {
         dialog.show();
     }
 
-    public void updateHabitDetails() {
-        int dayIndex = new LocalDateTime(DateTimeZone.forID("Canada/Mountain")).getDayOfWeek();
-        Bundle bundle = getIntent().getExtras();
-        Integer position = bundle.getInt("position");
-        Habit habit = new WeeklyScheduleController().getDailySchedule(dayIndex).getHabits().get(position);
+    public void updateHabitDetails(Habit habit) {
         // update this to be the habit name for the habit screen we are on
         setTitle(habit.getName());
         TextView commentTextView = (TextView) findViewById(R.id.habitHomepageCommentTextView);

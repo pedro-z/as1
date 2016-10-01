@@ -1,7 +1,5 @@
 package ca.ualberta.cs.shoven_habittracker;
 
-import java.util.ArrayList;
-
 /**
  * Created by shoven on 2016-09-28.
  */
@@ -38,7 +36,7 @@ public class WeeklyScheduleController {
         getWeeklySchedule().removeHabit(habit);
     }
 
-    public void updateHabitSchedule(Habit habit, Schedule newSchedule ) {
-        getWeeklySchedule().updateHabitSchedule(habit, newSchedule);
+    public void updateHabitSchedule(Habit habit, Schedule newSchedule, Integer position ) {
+        getWeeklySchedule().updateHabitSchedule(habit, newSchedule, position);
     }
 }

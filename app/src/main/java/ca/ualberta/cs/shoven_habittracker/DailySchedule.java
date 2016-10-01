@@ -25,6 +25,10 @@ public class DailySchedule {
 
     public void addHabit(Habit habit) { this.habits.addHabit(habit); }
 
+    public void insertHabit(Habit habit, Integer position) {
+        this.habits.insertHabit(habit, position);
+    }
+
     public void removeHabit(Habit habit) {
         this.habits.removeHabit(habit);
     }

@@ -1,5 +1,8 @@
 package ca.ualberta.cs.shoven_habittracker;
 
+import android.widget.Toast;
+
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Dictionary;
@@ -10,6 +13,7 @@ import java.util.Dictionary;
 public class WeeklySchedule {
     private ArrayList<DailySchedule> weeklySchedule;
     private HabitList habitList;
+    private ArrayList<Listener> listeners;
 
     public WeeklySchedule() {
         this.weeklySchedule = new ArrayList<>();
@@ -17,6 +21,28 @@ public class WeeklySchedule {
             weeklySchedule.add(new DailySchedule(i));
         }
         this.habitList = new HabitList();
+        this.listeners = new ArrayList<>();
+    }
+
+    private ArrayList<Listener> getListeners () {
+        if (listeners == null) {
+            listeners = new ArrayList<>();
+        }
+        return listeners;
+    }
+
+    public void notifyListeners () {
+        for (Listener listener : getListeners()) {
+            listener.update();
+        }
+    }
+
+    public void addListener(Listener listener) {
+        getListeners().add(listener);
+    }
+
+    public void removeListener(Listener listener) {
+        getListeners().remove(listener);
     }
 
     public ArrayList<DailySchedule> getWeeklySchedule() {
@@ -40,7 +66,7 @@ public class WeeklySchedule {
     public Schedule getHabitSchedule(Habit habit) {
         Schedule habitSchedule = new Schedule();
         for(DailySchedule dailySchedule : weeklySchedule) {
-            if(dailySchedule.getHabits().contains(habit)) {
+            if (dailySchedule.getHabits().contains(habit)) {
                 habitSchedule.addToSchedule(dailySchedule.getDayIndex());
             }
         }
@@ -54,10 +80,11 @@ public class WeeklySchedule {
     public void addHabit(Habit habit, Schedule schedule) {
         this.habitList.addHabit(habit);
         if (schedule != null) {
-            for(Integer day : schedule.getSchedule()) {
+            for (Integer day : schedule.getSchedule()) {
                 weeklySchedule.get(day).addHabit(habit);
             }
         }
+        notifyListeners();
     }
 
     public void removeHabit(Habit habit) {
@@ -67,8 +94,12 @@ public class WeeklySchedule {
         }
     }
 
-    public void updateHabitSchedule(Habit habit, Schedule newSchedule) {
-        removeHabit(habit);
-        addHabit(habit, newSchedule);
+    public void updateHabitSchedule(Habit habit, Schedule newSchedule, Integer position) {
+        for (DailySchedule dailySchedule : weeklySchedule) {
+            dailySchedule.removeHabit(habit);
+            if (newSchedule.getSchedule().contains(dailySchedule.getDayIndex())) {
+                dailySchedule.insertHabit(habit, position);
+            }
+        }
     }
 }

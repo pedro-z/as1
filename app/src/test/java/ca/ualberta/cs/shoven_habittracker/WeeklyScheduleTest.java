@@ -24,6 +24,24 @@ public class WeeklyScheduleTest {
     }
 
     @Test
+    public void testAddHabit() {
+        WeeklySchedule weeklySchedule = new WeeklySchedule();
+
+        Habit habit1 = new Habit("Test habit");
+        Habit habit2 = new Habit("Test habit");
+        Schedule schedule = new Schedule();
+        schedule.addToSchedule(wed);
+        assertFalse(weeklySchedule.getAllHabits().getHabitList().contains(habit1));
+        assertFalse(weeklySchedule.getAllHabits().getHabitList().contains(habit2));
+        weeklySchedule.addHabit(habit1, null);
+        assertTrue(weeklySchedule.getAllHabits().getHabitList().contains(habit1));
+        assertFalse(weeklySchedule.getAllHabits().getHabitList().contains(habit2));
+        weeklySchedule.addHabit(habit2, schedule);
+        assertTrue(weeklySchedule.getAllHabits().getHabitList().contains(habit1));
+        assertTrue(weeklySchedule.getAllHabits().getHabitList().contains(habit2));
+    }
+
+    @Test
     public void testHasHabit() {
         WeeklySchedule weeklySchedule = new WeeklySchedule();
         Habit habit = new Habit("Test habit");
@@ -71,18 +89,111 @@ public class WeeklyScheduleTest {
     }
 
     @Test
-    public void testAddHabit() {
-        // TODO finish testAddHabit() in WeeklyScheduleTest()
+    public void testRemoveHabit() {
+        WeeklySchedule weeklySchedule = new WeeklySchedule();
+
+        Habit habit1 = new Habit("Test habit");
+        Habit habit2 = new Habit("Test habit");
+        Schedule schedule = new Schedule();
+        schedule.addToSchedule(wed);
+        weeklySchedule.addHabit(habit1, null);
+        weeklySchedule.addHabit(habit2, schedule);
+        assertTrue(weeklySchedule.getAllHabits().getHabitList().contains(habit1));
+        assertTrue(weeklySchedule.getAllHabits().getHabitList().contains(habit2));
+        weeklySchedule.removeHabit(habit1);
+        assertFalse(weeklySchedule.getAllHabits().getHabitList().contains(habit1));
+        assertTrue(weeklySchedule.getAllHabits().getHabitList().contains(habit2));
+        weeklySchedule.removeHabit(habit2);
+        assertFalse(weeklySchedule.getAllHabits().getHabitList().contains(habit1));
+        assertFalse(weeklySchedule.getAllHabits().getHabitList().contains(habit2));
+        try{
+            weeklySchedule.removeHabit(habit2);
+        } catch (Exception e) {
+            fail();
+        }
     }
 
     @Test
-    public void testRemoveHabit() {
-        // TODO finish testRemoveHabit() in WeeklyScheduleTest()
+    public void testInsertHabit() {
+        WeeklySchedule weeklySchedule = new WeeklySchedule();
+
+        Habit habit1 = new Habit("Test habit");
+        Habit habit2 = new Habit("Test habit");
+        Habit habit3 = new Habit("Test habit");
+        Schedule schedule = new Schedule();
+        schedule.addToSchedule(wed);
+        weeklySchedule.addHabit(habit1, schedule);
+        weeklySchedule.addHabit(habit2, schedule);
+        weeklySchedule.addHabit(habit3, schedule);
+
+        assertTrue(schedule.getSchedule().equals(weeklySchedule.getHabitSchedule(habit1).getSchedule()));
+        assertTrue(weeklySchedule.getAllHabits().getHabitList().get(0).equals(habit1));
+        assertTrue(weeklySchedule.getAllHabits().getHabitList().get(1).equals(habit2));
+        assertTrue(weeklySchedule.getAllHabits().getHabitList().get(2).equals(habit3));
+
+        Schedule newSchedule = new Schedule();
+        newSchedule.addToSchedule(mon);
+        newSchedule.addToSchedule(tue);
+        weeklySchedule.updateHabitSchedule(habit1, newSchedule, 0);
+
+        assertTrue(newSchedule.getSchedule().equals(weeklySchedule.getHabitSchedule(habit1).getSchedule()));
+        assertTrue(weeklySchedule.getAllHabits().getHabitList().get(0).equals(habit1));
+        assertTrue(weeklySchedule.getAllHabits().getHabitList().get(1).equals(habit2));
+        assertTrue(weeklySchedule.getAllHabits().getHabitList().get(2).equals(habit3));
     }
 
     @Test
     public void testUpdateHabitSchedule() {
         // TODO finish testUpdateHabitSchedule() in WeeklyScheduleTest()
+    }
+
+    @Test
+    public void testGetHabitIndex() {
+        WeeklySchedule weeklySchedule = new WeeklySchedule();
+
+        Habit habit1 = new Habit("Test habit");
+        Habit habit2 = new Habit("Test habit");
+        Habit habit3 = new Habit("Test habit");
+        Schedule schedule = new Schedule();
+        schedule.addToSchedule(wed);
+        weeklySchedule.addHabit(habit1, schedule);
+        weeklySchedule.addHabit(habit2, schedule);
+
+        assertTrue(weeklySchedule.getAllHabits().getHabitIndex(habit1).equals(0));
+        assertTrue(weeklySchedule.getAllHabits().getHabitIndex(habit2).equals(1));
+        assertNull(weeklySchedule.getAllHabits().getHabitIndex(habit3));
+    }
+
+    boolean updated = false;
+    @Test
+    public void testNotifyAllListeners() {
+        WeeklySchedule weeklySchedule = new WeeklySchedule();
+        Habit habit = new Habit("Test Habit");
+        updated = false;
+        Listener l = new Listener() {
+            public void update() {
+                WeeklyScheduleTest.this.updated = true;
+            }
+        };
+        weeklySchedule.addListener(l);
+        weeklySchedule.addHabit(habit, null);
+        assertTrue("WeeklySchedule didn't fire an update", this.updated);
+    }
+
+    @Test
+    public void testRemoveListeners() {
+        WeeklySchedule weeklySchedule = new WeeklySchedule();
+        Habit habit = new Habit("Test Habit");
+        updated = false;
+        Listener l = new Listener() {
+            public void update() {
+                WeeklyScheduleTest.this.updated = true;
+            }
+        };
+        weeklySchedule.addListener(l);
+        weeklySchedule.removeListener(l);
+        weeklySchedule.addHabit(habit, null);
+        assertFalse("WeeklySchedule didn't fire an update", this.updated);
     }
 
     /*@Test

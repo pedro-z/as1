@@ -19,15 +19,27 @@ import java.util.Collection;
 import java.util.Date;
 
 public class EditHabitActivity extends AppCompatActivity {
+    private Integer position;
+    private String activity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_habit);
-        final Schedule schedule = new Schedule();
+        Schedule scheduleToSet = new Schedule();
         final Integer sun = 0, mon = 1, tue = 2, wed = 3, thu = 4, fri = 5, sat = 6;
 
-        initializeFields();
+        Bundle bundle = getIntent().getExtras();
+        position = bundle.getInt("position");
+        activity = bundle.getString("activity");
+        WeeklyScheduleController controller = new WeeklyScheduleController();
+        Habit habitToSet;
+        habitToSet = controller.getAllHabits().getHabitList().get(position);
+        //Toast.makeText(this, "" + position + " " + activity, Toast.LENGTH_SHORT).show();
+
+        final Habit habit = habitToSet;
+
+        final Schedule schedule = initializeFields(controller, habit, scheduleToSet);
 
         FloatingActionButton editFab = (FloatingActionButton) findViewById(R.id.saveEditFab);
         editFab.setOnClickListener(new View.OnClickListener() {
@@ -35,7 +47,7 @@ public class EditHabitActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Snackbar.make(view, "Habit update saved", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
-                saveHabitChanges(view, schedule);
+                saveHabitChanges(view, habit, schedule);
                 finish();
             }
         });
@@ -137,14 +149,8 @@ public class EditHabitActivity extends AppCompatActivity {
         newFragment.show(getSupportFragmentManager(), "datePicker");
     }
 
-    public void initializeFields() {
+    public Schedule initializeFields(WeeklyScheduleController controller, Habit habit, Schedule schedule) {
         setTitle("Edit Habit");
-
-        WeeklyScheduleController controller = new WeeklyScheduleController();
-        int dayIndex = new LocalDateTime(DateTimeZone.forID("Canada/Mountain")).getDayOfWeek();
-        Bundle bundle = getIntent().getExtras();
-        Integer position = bundle.getInt("position");
-        Habit habit = controller.getDailySchedule(dayIndex).getHabits().get(position);
 
         EditText habitNameEditText = (EditText) findViewById(R.id.editHabitNameEditText);
         EditText habitCommentEditText = (EditText) findViewById(R.id.editCommentEditText);
@@ -161,37 +167,49 @@ public class EditHabitActivity extends AppCompatActivity {
         ToggleButton saturdayToggle = (ToggleButton) findViewById(R.id.editSaturdayToggleButton);
         if (habitSchedule.contains(0)) {
             sundayToggle.setChecked(true);
+            schedule.addToSchedule(0);
         }
         if (habitSchedule.contains(1)) {
             mondayToggle.setChecked(true);
+            schedule.addToSchedule(1);
         }
         if (habitSchedule.contains(2)) {
             tuesdayToggle.setChecked(true);
+            schedule.addToSchedule(2);
         }
         if (habitSchedule.contains(3)) {
             wednesdayToggle.setChecked(true);
+            schedule.addToSchedule(3);
         }
         if (habitSchedule.contains(4)) {
             thursdayToggle.setChecked(true);
+            schedule.addToSchedule(4);
         }
         if (habitSchedule.contains(5)) {
             fridayToggle.setChecked(true);
+            schedule.addToSchedule(5);
         }
         if (habitSchedule.contains(6)) {
             saturdayToggle.setChecked(true);
+            schedule.addToSchedule(6);
         }
+        return schedule;
     }
 
     // TODO possible error handling on saveHabitChanges
-    public void saveHabitChanges (View v, Schedule schedule) {
+    public void saveHabitChanges (View v, Habit habit, Schedule schedule) {
         // TODO do they have to give the habit a name??
-        EditText habitName = (EditText) findViewById(R.id.habitNameEditText);
-        EditText habitComment = (EditText) findViewById(R.id.commentEditText);
+        EditText newHabitName = (EditText) findViewById(R.id.editHabitNameEditText);
+        EditText newHabitComment = (EditText) findViewById(R.id.editCommentEditText);
 
-        Habit habit = new Habit(habitName.getText().toString(), new FormattedDate(), habitComment.getText().toString());
-
-        //WeeklyScheduleController controller = new WeeklyScheduleController();
-        //controller.updateHabitSchedule(habit, schedule);
+        WeeklyScheduleController controller = new WeeklyScheduleController();
+        controller.updateHabitSchedule(habit, schedule, position);
+        if (!habit.getName().equals(newHabitName.getText().toString())) {
+            habit.setName(newHabitName.getText().toString());
+        }
+        if (!habit.getComment().equals(newHabitComment.getText().toString())) {
+            habit.setComment(newHabitComment.getText().toString());
+        }
 
         Toast.makeText(this, "Habit changes saved", Toast.LENGTH_SHORT).show();
     }
