@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/activity_habit_homepage"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -11,14 +10,6 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="ca.ualberta.cs.shoven_habittracker.HabitHomepageActivity">
 
-    <ImageButton
-        android:layout_width="100dp"
-        android:id="@+id/completeHabitButton"
-        android:background="@drawable/ic_check_circle"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:contentDescription="@string/complete_habit_button_content_description"
-        android:layout_height="100dp" />
 
     <View
         android:layout_width="match_parent"
@@ -30,6 +21,15 @@
         android:layout_alignParentEnd="true"
         android:layout_marginEnd="10dp" />
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/habitHomepageCommentTextView"
+        android:text=""
+        android:layout_below="@+id/habitHomepageSeparatorView"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="10dp" />
+
     <View
         android:layout_width="match_parent"
         android:layout_height="2dp"
@@ -40,32 +40,32 @@
         android:layout_alignParentEnd="true"
         android:layout_marginEnd="10dp" />
 
-    <ExpandableListView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/habitHistoryExpandableListView"
-        android:layout_below="@+id/habitHomepageMiddleSeparatorView"
-        android:layout_centerHorizontal="true" />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="?android:attr/listDivider"
+        android:id="@+id/habitHomepageBottomSeparatorView"
+        android:layout_marginTop="5dp"
+        android:layout_below="@+id/linearLayout"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="10dp" />
 
-    <TextView
-        android:text="@string/habit_count"
+    <ListView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/dailyGoalTextView"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:layout_marginTop="41dp"
-        android:layout_below="@+id/completeHabitButton"
-        android:layout_toStartOf="@+id/completeHabitButton" />
+        android:id="@+id/habitHistoryListView"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/habitHomepageBottomSeparatorView" />
 
-    <TextView
-        android:text="@string/streak_count"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/streakTextView"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:layout_alignBaseline="@+id/dailyGoalTextView"
-        android:layout_alignBottom="@+id/dailyGoalTextView"
-        android:layout_toEndOf="@+id/completeHabitButton" />
+    <ImageButton
+        android:layout_width="100dp"
+        android:id="@+id/completeHabitButton"
+        android:background="@drawable/ic_check_circle"
+        android:contentDescription="@string/complete_habit_button_content_description"
+        android:layout_height="100dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:onClick="addRecord" />
 
     <TextView
         android:text="0"
@@ -75,30 +75,135 @@
         android:background="@drawable/ic_circle"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:gravity="center"
+        android:textColor="#FFFFFF"
         android:layout_above="@+id/streakTextView"
-        android:layout_alignEnd="@+id/streakTextView"
-        android:textColor="#FFFFFF"/>
+        android:layout_toEndOf="@+id/completeHabitButton"
+        android:layout_marginStart="26dp" />
+
+    <TextView
+        android:text="@string/streak_count"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/streakTextView"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:layout_below="@+id/completeHabitButton"
+        android:layout_alignStart="@+id/streakCount" />
+
+    <TextView
+        android:text="@string/habit_count"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/dailyGoalTextView"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:layout_below="@+id/completeHabitButton"
+        android:layout_toStartOf="@+id/completeHabitButton" />
 
     <TextView
         android:text="0"
+        android:layout_width="50dp"
         android:layout_height="50dp"
         android:id="@+id/dailyGoalCount"
         android:background="@drawable/ic_circle"
-        android:layout_marginEnd="19dp"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:gravity="center"
-        android:layout_width="50dp"
-        android:layout_above="@+id/streakTextView"
-        android:layout_toStartOf="@+id/completeHabitButton"
-        android:textColor="#FFFFFF"/>
+        android:textColor="#FFFFFF"
+        android:layout_marginStart="23dp"
+        android:layout_above="@+id/dailyGoalTextView"
+        android:layout_alignStart="@+id/dailyGoalTextView" />
 
-    <TextView
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/habitHomepageCommentTextView"
-        android:text=""
-        android:layout_below="@+id/habitHomepageSeparatorView"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="10dp" />
+        android:orientation="vertical"
+        android:id="@+id/linearLayout"
+        android:layout_below="@+id/habitHomepageMiddleSeparatorView"
+        android:layout_alignParentStart="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:orientation="horizontal"
+            android:layout_weight="1" >
+
+            <TextView
+                android:text="S"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_weight="0.5"
+                android:id="@+id/sundayTextView"
+                android:background="@drawable/ic_circle_white"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:gravity="center"
+                android:textColor="#ff4081" />
+
+            <TextView
+                android:text="M"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_weight="0.5"
+                android:id="@+id/mondayTextView"
+                android:background="@drawable/ic_circle_white"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:gravity="center"
+                android:textColor="#ff4081" />
+
+            <TextView
+                android:text="T"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_weight="0.5"
+                android:id="@+id/tuesdayTextView"
+                android:background="@drawable/ic_circle_white"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:gravity="center"
+                android:textColor="#ff4081" />
+
+            <TextView
+                android:text="W"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_weight="0.5"
+                android:id="@+id/wednesdayTextView"
+                android:background="@drawable/ic_circle_white"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:gravity="center"
+                android:textColor="#ff4081" />
+
+            <TextView
+                android:text="R"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_weight="0.5"
+                android:id="@+id/thursdayTextView"
+                android:background="@drawable/ic_circle_white"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:gravity="center"
+                android:textColor="#ff4081" />
+
+            <TextView
+                android:text="F"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_weight="0.5"
+                android:id="@+id/fridayTextView"
+                android:background="@drawable/ic_circle_white"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:gravity="center"
+                android:textColor="#ff4081" />
+
+            <TextView
+                android:text="S"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_weight="0.5"
+                android:id="@+id/saturdayTextView"
+                android:background="@drawable/ic_circle_white"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:gravity="center"
+                android:textColor="#ff4081" />
+
+        </LinearLayout>
+
+    </LinearLayout>
 
 </RelativeLayout>

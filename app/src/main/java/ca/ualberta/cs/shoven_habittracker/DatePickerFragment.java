@@ -7,11 +7,9 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 import android.widget.DatePicker;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import org.joda.time.DateTimeZone;
 import org.joda.time.LocalDateTime;
-
 
 /**
  * Created by shoven on 2016-10-01.

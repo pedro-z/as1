@@ -2,8 +2,6 @@ package ca.ualberta.cs.shoven_habittracker;
 
 import org.junit.Test;
 
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Date;
 
 import static org.junit.Assert.*;
@@ -42,5 +40,12 @@ public class HabitTest {
         String newComment = "New comment";
         habit1.setComment(newComment);
         assertTrue("Habit1 comment not updated", newComment.equals(habit1.getComment()));
+    }
+
+    @Test
+    public void testAddRecord() {
+        Habit habit = new Habit("Test habit");
+        habit.addRecord();
+        assertTrue(habit.getRecordList().getSize().equals(1));
     }
 }

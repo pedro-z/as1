@@ -33,4 +33,18 @@ public class Schedule {
     public void removeFromSchedule(Integer dayIndex) {
         schedule.remove(dayIndex);
     }
+
+    public void fillSchedule() {
+        schedule.add(0);
+        schedule.add(1);
+        schedule.add(2);
+        schedule.add(3);
+        schedule.add(4);
+        schedule.add(5);
+        schedule.add(6);
+    }
+
+    public void clear() {
+        schedule.clear();
+    }
 }

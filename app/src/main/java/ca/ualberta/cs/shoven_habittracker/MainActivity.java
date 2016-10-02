@@ -44,8 +44,6 @@ import org.joda.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Locale;
 
-
-
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, AdapterView.OnItemClickListener {
 
@@ -61,15 +59,15 @@ public class MainActivity extends AppCompatActivity
 
         TextView dateTextView = (TextView) findViewById(R.id.todayDateTextView);
         final Integer dayOfWeek = setDateToday(dateTextView);
+        final WeeklyScheduleController controller = new WeeklyScheduleController();
 
         ListView listView = (ListView) findViewById(R.id.mainHabitsListView);
-        final ArrayList<Habit> habitList = new WeeklyScheduleController().getDailySchedule(dayOfWeek).getHabits();
+        final ArrayList<Habit> habitList = controller.getDailySchedule(dayOfWeek).getHabits();
         final ArrayAdapter<Habit> habitAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, habitList);
         listView.setAdapter(habitAdapter);
 
         listView.setOnItemClickListener(this);
 
-        // TODO not updating the main listView when you delete a habit OR remove the habit from that day's schedule
         WeeklyScheduleController.getWeeklySchedule().addListener(new Listener() {
             @Override
             public void update() {
@@ -167,7 +165,7 @@ public class MainActivity extends AppCompatActivity
     public Integer setDateToday(TextView textView) {
         LocalDateTime now = new LocalDateTime(DateTimeZone.forID("Canada/Mountain"));
         textView.setText(now.toString("EEEE, MMMM dd, yyyy", Locale.CANADA));
-        return now.getDayOfWeek();
+        return now.getDayOfWeek() % 7;
     }
 
     public void setNavigator(NavigationView navigationView) {

@@ -2,7 +2,7 @@ package ca.ualberta.cs.shoven_habittracker;
 
 import org.junit.Test;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 /**
  * Created by shoven on 2016-09-28.
@@ -26,5 +26,21 @@ public class ScheduleTest {
         assertTrue("Schedule updated with too large index", newSchedule.getSize() == 2);
         newSchedule.removeFromSchedule(5);
         assertTrue("Schedule removed non-existent index", newSchedule.getSize() == 2);
+    }
+
+    @Test
+    public void testFillSchedule() {
+        Schedule schedule = new Schedule();
+        schedule.fillSchedule();
+        assertTrue(schedule.getSize().equals(7));
+    }
+
+    @Test
+    public void testClear() {
+        Schedule schedule = new Schedule();
+        schedule.fillSchedule();
+        assertFalse(schedule.getSize().equals(0));
+        schedule.clear();
+        assertTrue(schedule.getSize().equals(0));
     }
 }

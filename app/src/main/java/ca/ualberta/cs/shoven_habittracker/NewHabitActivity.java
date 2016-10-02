@@ -14,6 +14,8 @@ import android.widget.ToggleButton;
 
 import java.util.Date;
 
+// TODO force them to give a habit a name
+
 public class NewHabitActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,7 +26,6 @@ public class NewHabitActivity extends AppCompatActivity {
 
         TextView textView = (TextView) findViewById(R.id.pickDateTextView);
         textView.setText(new FormattedDate().toString());
-        // TODO don't let the user choose a date in the future
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.saveFab);
         fab.setOnClickListener(new View.OnClickListener() {
