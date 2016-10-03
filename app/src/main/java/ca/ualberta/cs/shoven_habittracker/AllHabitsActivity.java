@@ -3,9 +3,6 @@ package ca.ualberta.cs.shoven_habittracker;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -21,13 +18,13 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import org.joda.time.DateTimeZone;
-import org.joda.time.LocalDateTime;
-
+import java.io.File;
 import java.util.ArrayList;
 
 public class AllHabitsActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, AdapterView.OnItemClickListener {
+
+    private static final String FILENAME = "file.sav";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,23 +38,26 @@ public class AllHabitsActivity extends AppCompatActivity
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
         toggle.syncState();
+    }
 
+    @Override
+    protected void onStart() {
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         navigationView.getMenu().getItem(1).setChecked(true);
 
-        ListView listView = (ListView) findViewById(R.id.allHabitsListView);
-        final ArrayList<Habit> habitList = new WeeklyScheduleController().getAllHabits().getHabitList();
+        /*ListView listView = (ListView) findViewById(R.id.mainHabitsListView);
+        ArrayList<Habit> habitList = WeeklyScheduleController.getWeeklySchedule().getAllHabits().getHabitList();
         final ArrayAdapter<Habit> habitAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, habitList);
         listView.setAdapter(habitAdapter);
-        listView.setOnItemClickListener(AllHabitsActivity.this);
+        listView.setOnItemClickListener(this);
 
         WeeklyScheduleController.getWeeklySchedule().addListener(new Listener() {
             @Override
             public void update() {
                 habitAdapter.notifyDataSetChanged();
             }
-        });
+        });*/
     }
 
     @Override
@@ -102,20 +102,13 @@ public class AllHabitsActivity extends AppCompatActivity
             this.finish();
         } else if ( id == R.id.nav_all_habits) {
 
-        } else if (id == R.id.nav_history) {
-            Intent intent = new Intent(AllHabitsActivity.this, HistoryActivity.class);
-            this.finish();
-            startActivity(intent);
-        } else if (id == R.id.nav_statistics) {
-            Intent intent = new Intent(AllHabitsActivity.this, StatisticsActivity.class);
-            this.finish();
-            startActivity(intent);
         } else if (id == R.id.nav_delete) {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setMessage(R.string.check_if_clear);
             builder.setPositiveButton(R.string.clear_all_data, new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int id) {
                     Toast.makeText(AllHabitsActivity.this, "All data cleared", Toast.LENGTH_SHORT).show();
+                    clearData();
                 }
             });
             builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
@@ -130,6 +123,16 @@ public class AllHabitsActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    private void clearData() {
+        File dir = getFilesDir();
+        File file = new File(dir, FILENAME);
+        try {
+            boolean deleted = file.delete();
+        } catch (SecurityException e) {
+            throw new RuntimeException();
+        }
     }
 
     @Override

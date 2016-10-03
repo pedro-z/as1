@@ -26,7 +26,8 @@
     <!-- habit_homepage.xml -->
     <string name="test_habit_name_title">Habit Name</string>
     <string name="complete_habit">Complete Habit</string>
-    <string name="habit_count">Times today</string>
+    <string name="habit_count">Times Today</string>
+    <string name="streak_count">Total Count</string>
 
     <!-- all_habits.xml -->
     <string name="all_habits_title">ALL HABITS</string>
@@ -47,9 +48,7 @@
     <string name="cancel">Cancel</string>
     <string name="title_activity_habit_homepage">HabitHomepage</string>
     <string name="complete_habit_button_content_description">Complete Habit Button</string>
-    <string name="streak_count">Streak</string>
     <string name="check_if_delete_habit">Delete habit?</string>
     <string name="check_if_delete_record">Delete record?</string>
     <string name="delete">Delete</string>
-    <string name="title_activity_new_habit2">NewHabitActivity2</string>
 </resources>

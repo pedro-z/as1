@@ -1,8 +1,5 @@
 package ca.ualberta.cs.shoven_habittracker;
 
-import java.lang.reflect.Array;
-import java.text.Format;
-import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.Date;
 

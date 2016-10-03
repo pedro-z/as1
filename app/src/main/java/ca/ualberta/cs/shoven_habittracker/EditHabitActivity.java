@@ -8,38 +8,27 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
-
-import org.joda.time.DateTimeZone;
-import org.joda.time.LocalDateTime;
-
 import java.util.Collection;
-import java.util.Date;
 
 public class EditHabitActivity extends AppCompatActivity {
     private Integer position;
     private String activity;
+    private Schedule scheduleToSet = new Schedule();
+    private Integer sun = 0, mon = 1, tue = 2, wed = 3, thu = 4, fri = 5, sat = 6;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_habit);
-        Schedule scheduleToSet = new Schedule();
-        final Integer sun = 0, mon = 1, tue = 2, wed = 3, thu = 4, fri = 5, sat = 6;
 
         Bundle bundle = getIntent().getExtras();
         position = bundle.getInt("position");
         activity = bundle.getString("activity");
-        WeeklyScheduleController controller = new WeeklyScheduleController();
-        Habit habitToSet;
-        habitToSet = controller.getAllHabits().getHabitList().get(position);
-        //Toast.makeText(this, "" + position + " " + activity, Toast.LENGTH_SHORT).show();
 
-        final Habit habit = habitToSet;
-
-        final Schedule schedule = initializeFields(controller, habit, scheduleToSet);
+        final Habit habit = WeeklyScheduleController.getWeeklySchedule().getAllHabits().getHabitList().get(position);;
+        final Schedule schedule = initializeFields(habit, scheduleToSet);
 
         FloatingActionButton editFab = (FloatingActionButton) findViewById(R.id.saveEditFab);
         editFab.setOnClickListener(new View.OnClickListener() {
@@ -149,7 +138,7 @@ public class EditHabitActivity extends AppCompatActivity {
         newFragment.show(getSupportFragmentManager(), "datePicker");
     }
 
-    public Schedule initializeFields(WeeklyScheduleController controller, Habit habit, Schedule schedule) {
+    public Schedule initializeFields(Habit habit, Schedule schedule) {
         setTitle("Edit Habit");
 
         EditText habitNameEditText = (EditText) findViewById(R.id.editHabitNameEditText);
@@ -157,7 +146,7 @@ public class EditHabitActivity extends AppCompatActivity {
         habitNameEditText.setText(habit.getName());
         habitCommentEditText.setText(habit.getComment());
 
-        Collection<Integer> habitSchedule = controller.getHabitSchedule(habit).getSchedule();
+        Collection<Integer> habitSchedule = WeeklyScheduleController.getWeeklySchedule().getHabitSchedule(habit).getSchedule();
         ToggleButton sundayToggle = (ToggleButton) findViewById(R.id.editSundayToggleButton);
         ToggleButton mondayToggle = (ToggleButton) findViewById(R.id.editMondayToggleButton);
         ToggleButton tuesdayToggle = (ToggleButton) findViewById(R.id.editTuesdayToggleButton);
@@ -207,6 +196,8 @@ public class EditHabitActivity extends AppCompatActivity {
         habit.setName(newHabitName.getText().toString());
         habit.setComment(newHabitComment.getText().toString());
 
+        MainActivity mainActivity = new MainActivity();
+        mainActivity.saveInFile();
         Toast.makeText(this, "Habit changes saved", Toast.LENGTH_SHORT).show();
     }
 }

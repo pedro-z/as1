@@ -10,14 +10,11 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.*;
-import android.widget.ExpandableListAdapter;
 
 import org.joda.time.DateTimeZone;
 import org.joda.time.LocalDateTime;
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -30,50 +27,50 @@ import static android.R.color.white;
 public class HabitHomepageActivity extends AppCompatActivity {
     private Integer position;
     private String activity;
+    final int dayIndex = new LocalDateTime(DateTimeZone.forID("Canada/Mountain")).getDayOfWeek() % 7;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_habit_homepage);
 
-        final int dayIndex = new LocalDateTime(DateTimeZone.forID("Canada/Mountain")).getDayOfWeek() % 7;
         Bundle bundle = getIntent().getExtras();
         position = bundle.getInt("position");
         activity = bundle.getString("activity");
-        final WeeklyScheduleController controller = new WeeklyScheduleController();
-        Habit habitToSet;
-        //Toast.makeText(this, "" + position + " " + activity, Toast.LENGTH_SHORT).show();
-        if (activity.equals("MainActivity")) {
-            Habit dayIndexHabit = controller.getDailySchedule(dayIndex).getHabits().get(position);
-            position = controller.getAllHabits().getHabitIndex(dayIndexHabit);
+
+        if (activity == null) {
+            activity = "AllHabitsActivity";
+        } else if (activity.equals("MainActivity")) {
+            Habit dayIndexHabit = WeeklyScheduleController.getWeeklySchedule().getDailySchedule(dayIndex).getHabits().get(position);
+            position = WeeklyScheduleController.getWeeklySchedule().getAllHabits().getHabitIndex(dayIndexHabit);
             activity = "AllHabitsActivity";
         }
+    }
 
-        // TODO make sure that the listener is updating the schedule in real time
-        //  (the comment and name of the habit are being updated with the listener...)
-        habitToSet = controller.getAllHabits().getHabitList().get(position);
-        //Toast.makeText(this, "" + position + " " + activity, Toast.LENGTH_SHORT).show();
-        final Habit habit = habitToSet;
-        updateHabitDetails(habit, controller);
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        final Habit habit = WeeklyScheduleController.getWeeklySchedule().getAllHabits().getHabitList().get(position);
+        updateHabitDetails(habit);
         habit.addListener(new Listener() {
             @Override
             public void update() {
-                updateHabitDetails(habit, controller);
+                updateHabitDetails(habit);
             }
         });
 
         final ExpandableListView expandableListView = (ExpandableListView) findViewById(R.id.habitHistoryListView);
-        final HashMap<String, List<Date>> records = controller.getAllHabits().getHabitList().get(position).getRecordList().getRecordListValue();
+        final HashMap<String, List<Date>> records = WeeklyScheduleController.getWeeklySchedule().getAllHabits().getHabitList().get(position).getRecordList().getRecordListValue();
         final Set<String> titleSet = records.keySet();
         final ArrayList<String> titleList = new ArrayList<>(titleSet);
         final CustomExpandableListAdapter expandableListAdapter = new CustomExpandableListAdapter(this, titleList, records);
         expandableListView.setAdapter(expandableListAdapter);
 
-        controller.getAllHabits().getHabitList().get(position).getRecordList().addListener(new Listener() {
+        WeeklyScheduleController.getWeeklySchedule().getAllHabits().getHabitList().get(position).getRecordList().addListener(new Listener() {
             @Override
             public void update() {
                 expandableListAdapter.notifyDataSetChanged();
-                Toast.makeText(HabitHomepageActivity.this, "LIST UPDATED", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -98,9 +95,7 @@ public class HabitHomepageActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 setResult(RESULT_OK);
-                //Toast.makeText(HabitHomepageActivity.this, "" + position, Toast.LENGTH_SHORT).show();
-                // TODO there is a problem that sometimes arises here if I add multiple habits, then delete one in the middle where the position is incorrect. Fix if there is time.
-                controller.getAllHabits().getHabitList().get(position).addRecord();
+                WeeklyScheduleController.getWeeklySchedule().getAllHabits().getHabitList().get(position).addRecord();
                 Toast.makeText(HabitHomepageActivity.this, "Habit completed", Toast.LENGTH_SHORT).show();
             }
         } );
@@ -112,16 +107,25 @@ public class HabitHomepageActivity extends AppCompatActivity {
         builder.setPositiveButton(R.string.delete, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
                 Toast.makeText(HabitHomepageActivity.this, "Habit completion deleted", Toast.LENGTH_SHORT).show();
-                RecordList recordList = new WeeklyScheduleController().getAllHabits().getHabitList().get(position).getRecordList();
+                Habit habit = new WeeklyScheduleController().getAllHabits().getHabitList().get(position);
+                String formattedDateString = new FormattedDate().toString();
+                RecordList recordList = habit.getRecordList();
                 recordList.getRecordListValue().get(groupText).remove(childPosition);
 
-                WeeklyScheduleController controller = new WeeklyScheduleController();
                 ExpandableListView expandableListView = (ExpandableListView) findViewById(R.id.habitHistoryListView);
-                HashMap<String, List<Date>> records = controller.getAllHabits().getHabitList().get(position).getRecordList().getRecordListValue();
+                HashMap<String, List<Date>> records = habit.getRecordList().getRecordListValue();
                 Set<String> titleSet = records.keySet();
                 ArrayList<String> titleList = new ArrayList<>(titleSet);
                 CustomExpandableListAdapter expandableListAdapter = new CustomExpandableListAdapter(HabitHomepageActivity.this, titleList, records);
                 expandableListView.setAdapter(expandableListAdapter);
+
+                Integer todayCount = habit.getRecordList().getSize(formattedDateString);
+                TextView todayCountTextView = (TextView) findViewById(R.id.dailyGoalCount);
+                todayCountTextView.setText(Integer.toString(todayCount));
+
+                int totalCount = habit.getRecordList().valueCount();
+                TextView totalCountTextView = (TextView) findViewById(R.id.streakCount);
+                totalCountTextView.setText(Integer.toString(totalCount));
             }
         });
         builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
@@ -133,7 +137,6 @@ public class HabitHomepageActivity extends AppCompatActivity {
         dialog.show();
     }
 
-    // TODO when you move back to Today in navigation bar, update which one is highlighted
     // TODO set character limit in setName...no enter
     // TODO force user to set a habit name
 
@@ -192,14 +195,24 @@ public class HabitHomepageActivity extends AppCompatActivity {
         dialog.show();
     }
 
-    public void updateHabitDetails(Habit habit, WeeklyScheduleController controller) {
+    public void updateHabitDetails(Habit habit) {
+        String formattedDateString = new FormattedDate().toString();
+
         // update this to be the habit name for the habit screen we are on
         setTitle(habit.getName());
         TextView commentTextView = (TextView) findViewById(R.id.habitHomepageCommentTextView);
         commentTextView.setText(habit.getComment());
 
+        Integer todayCount = habit.getRecordList().getSize(formattedDateString);
+        TextView countTextView = (TextView) findViewById(R.id.dailyGoalCount);
+        countTextView.setText(Integer.toString(todayCount));
+
+        int totalCount = habit.getRecordList().valueCount();
+        TextView totalCountTextView = (TextView) findViewById(R.id.streakCount);
+        totalCountTextView.setText(Integer.toString(totalCount));
+
         ExpandableListView expandableListView = (ExpandableListView) findViewById(R.id.habitHistoryListView);
-        HashMap<String, List<Date>> records = controller.getAllHabits().getHabitList().get(position).getRecordList().getRecordListValue();
+        HashMap<String, List<Date>> records = WeeklyScheduleController.getWeeklySchedule().getAllHabits().getHabitList().get(position).getRecordList().getRecordListValue();
         Set<String> titleSet = records.keySet();
         ArrayList<String> titleList = new ArrayList<>(titleSet);
         CustomExpandableListAdapter expandableListAdapter = new CustomExpandableListAdapter(this, titleList, records);
@@ -213,7 +226,7 @@ public class HabitHomepageActivity extends AppCompatActivity {
         TextView fridayTextView = (TextView) findViewById(R.id.fridayTextView);
         TextView saturdayTextView = (TextView) findViewById(R.id.saturdayTextView);
 
-        Schedule schedule= controller.getHabitSchedule(habit);
+        Schedule schedule = WeeklyScheduleController.getWeeklySchedule().getHabitSchedule(habit);
         Schedule antiSchedule = new Schedule();
         antiSchedule.fillSchedule();
         for (Integer day : schedule.getSchedule()) {

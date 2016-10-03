@@ -1,8 +1,6 @@
 package ca.ualberta.cs.shoven_habittracker;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -28,6 +26,14 @@ public class RecordList {
             return recordList.get(formattedDateString).size();
         }
         return 0;
+    }
+
+    public int valueCount() {
+        int valueCount = 0;
+        for (String key : recordList.keySet()) {
+            valueCount += recordList.get(key).size();
+        }
+        return valueCount;
     }
 
     public void addRecord(String formattedDateString, Date date) {

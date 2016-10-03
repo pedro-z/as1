@@ -19,16 +19,8 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".HistoryActivity"
-            android:label="@string/title_activity_history"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
             android:name=".AllHabitsActivity"
             android:label="@string/title_activity_all_habits"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name=".StatisticsActivity"
-            android:label="@string/title_activity_statistics"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".NewHabit" />
         <activity android:name=".NewHabitActivity" />

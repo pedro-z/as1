@@ -1,11 +1,7 @@
 package ca.ualberta.cs.shoven_habittracker;
 
-import android.widget.Toast;
-
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Dictionary;
+
 
 /**
  * Created by shoven on 2016-09-25.
@@ -107,5 +103,9 @@ public class WeeklySchedule {
             }
         }
         notifyListeners();
+    }
+
+    public void setWeeklySchedule(WeeklySchedule weeklySchedule) {
+        this.weeklySchedule = weeklySchedule.getWeeklySchedule();
     }
 }

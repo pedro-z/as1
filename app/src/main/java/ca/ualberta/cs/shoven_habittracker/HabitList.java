@@ -1,7 +1,6 @@
 package ca.ualberta.cs.shoven_habittracker;
 
 import java.util.ArrayList;
-import java.util.Collection;
 
 /**
  * Created by shoven on 2016-09-27.

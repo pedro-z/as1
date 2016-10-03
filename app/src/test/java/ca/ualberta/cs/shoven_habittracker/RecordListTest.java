@@ -83,4 +83,24 @@ public class RecordListTest {
         recordList.addRecord(today, new Date());
         assertFalse("RecordList didn't fire an update", this.updated);
     }
+
+    @Test
+    public void testGetValueCount() {
+        String habitName = "Test Habit";
+        Habit habit = new Habit(habitName);
+
+        RecordList recordList = new RecordList();
+        habit.setRecordList(recordList);
+        String today = "2016-10-02";
+        String yesterday = "2016-10-01";
+        Date date1 = new Date();
+        Date date2 = new Date();
+
+        recordList.addRecord(today, date1);
+        recordList.addRecord(today, date2);
+        recordList.addRecord(yesterday, date1);
+        recordList.addRecord(yesterday, date2);
+
+        assertEquals(4, recordList.valueCount());
+    }
 }

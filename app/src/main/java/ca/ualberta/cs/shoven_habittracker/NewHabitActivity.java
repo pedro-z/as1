@@ -1,7 +1,6 @@
 package ca.ualberta.cs.shoven_habittracker;
 
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -12,17 +11,16 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
-import java.util.Date;
-
 // TODO force them to give a habit a name
 
 public class NewHabitActivity extends AppCompatActivity {
+    private Schedule schedule = new Schedule();
+    private Integer sun = 0, mon = 1, tue = 2, wed = 3, thu = 4, fri = 5, sat = 6;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_habit);
-        final Schedule schedule = new Schedule();
-        final Integer sun = 0, mon = 1, tue = 2, wed = 3, thu = 4, fri = 5, sat = 6;
 
         TextView textView = (TextView) findViewById(R.id.pickDateTextView);
         textView.setText(new FormattedDate().toString());
