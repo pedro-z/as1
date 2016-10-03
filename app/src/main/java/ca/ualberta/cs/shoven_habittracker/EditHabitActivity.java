@@ -21,6 +21,8 @@ import java.util.Date;
 public class EditHabitActivity extends AppCompatActivity {
     private Integer position;
     private String activity;
+    private WeeklyScheduleController controller = new WeeklyScheduleController();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,10 +34,8 @@ public class EditHabitActivity extends AppCompatActivity {
         Bundle bundle = getIntent().getExtras();
         position = bundle.getInt("position");
         activity = bundle.getString("activity");
-        WeeklyScheduleController controller = new WeeklyScheduleController();
         Habit habitToSet;
         habitToSet = controller.getAllHabits().getHabitList().get(position);
-        //Toast.makeText(this, "" + position + " " + activity, Toast.LENGTH_SHORT).show();
 
         final Habit habit = habitToSet;
 
@@ -202,7 +202,6 @@ public class EditHabitActivity extends AppCompatActivity {
         EditText newHabitName = (EditText) findViewById(R.id.editHabitNameEditText);
         EditText newHabitComment = (EditText) findViewById(R.id.editCommentEditText);
 
-        WeeklyScheduleController controller = new WeeklyScheduleController();
         controller.updateHabitSchedule(habit, schedule);
         habit.setName(newHabitName.getText().toString());
         habit.setComment(newHabitComment.getText().toString());

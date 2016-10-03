@@ -82,15 +82,6 @@
         android:layout_marginStart="26dp" />
 
     <TextView
-        android:text="@string/streak_count"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/streakTextView"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:layout_below="@+id/completeHabitButton"
-        android:layout_alignStart="@+id/streakCount" />
-
-    <TextView
         android:text="@string/habit_count"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -206,5 +197,14 @@
         </LinearLayout>
 
     </LinearLayout>
+
+    <TextView
+        android:text="@string/streak_count"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/streakTextView"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:layout_below="@+id/completeHabitButton"
+        android:layout_toEndOf="@+id/completeHabitButton" />
 
 </RelativeLayout>

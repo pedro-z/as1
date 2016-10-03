@@ -47,6 +47,9 @@ import java.util.Locale;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, AdapterView.OnItemClickListener {
 
+    private WeeklyScheduleController controller = new WeeklyScheduleController();
+    private Integer dayOfWeek = new LocalDateTime(DateTimeZone.forID("Canada/Mountain")).getDayOfWeek() % 7;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,12 +57,21 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        TextView dateTextView = (TextView) findViewById(R.id.todayDateTextView);
+        setDateToday(dateTextView);
+
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+            this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.setDrawerListener(toggle);
+        toggle.syncState();
+    }
+
+    protected void onResume() {
+        super.onResume();
+
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         setNavigator(navigationView);
-
-        TextView dateTextView = (TextView) findViewById(R.id.todayDateTextView);
-        final Integer dayOfWeek = setDateToday(dateTextView);
-        final WeeklyScheduleController controller = new WeeklyScheduleController();
 
         ListView listView = (ListView) findViewById(R.id.mainHabitsListView);
         final ArrayList<Habit> habitList = controller.getDailySchedule(dayOfWeek).getHabits();
@@ -75,11 +87,6 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-            this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.setDrawerListener(toggle);
-        toggle.syncState();
     }
 
     public void floatingActionButtonClicked(View v) {
@@ -129,12 +136,6 @@ public class MainActivity extends AppCompatActivity
 
         } else if ( id == R.id.nav_all_habits) {
             Intent intent = new Intent(MainActivity.this, AllHabitsActivity.class);
-            startActivity(intent);
-        } else if (id == R.id.nav_history) {
-            Intent intent = new Intent(MainActivity.this, HistoryActivity.class);
-            startActivity(intent);
-        } else if (id == R.id.nav_statistics) {
-            Intent intent = new Intent(MainActivity.this, StatisticsActivity.class);
             startActivity(intent);
         } else if (id == R.id.nav_delete) {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);

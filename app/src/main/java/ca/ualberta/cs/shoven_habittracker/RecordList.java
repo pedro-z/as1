@@ -30,6 +30,14 @@ public class RecordList {
         return 0;
     }
 
+    public int valueCount() {
+        int valueCount = 0;
+        for (String key : recordList.keySet()) {
+            valueCount += recordList.get(key).size();
+        }
+        return valueCount;
+    }
+
     public void addRecord(String formattedDateString, Date date) {
         if (!recordList.containsKey(formattedDateString)) {
             recordList.put(formattedDateString, new ArrayList<Date>());

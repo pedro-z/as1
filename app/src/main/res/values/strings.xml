@@ -6,7 +6,7 @@
     <string name="action_settings">Settings</string>
     <string name="main_title">TO DO</string>
 
-    <!-- new_habit.xml -->
+    <!-- new_habit -->
     <string name="new_title">NEW</string>
     <string name="save_button">SAVE</string>
     <string name="name_hint">Name</string>
@@ -20,18 +20,16 @@
     <string name="pick_date">Pick a Date</string>
     <string name="comment_hint">Comment</string>
 
-    <!-- history.xml -->
-    <string name="history_title">HISTORY</string>
-
-    <!-- habit_homepage.xml -->
+    <!-- habit_homepage -->
     <string name="test_habit_name_title">Habit Name</string>
     <string name="complete_habit">Complete Habit</string>
-    <string name="habit_count">Times today</string>
+    <string name="habit_count">Times Today</string>
+    <string name="streak_count">Total Times</string>
 
-    <!-- all_habits.xml -->
+    <!-- all_habits -->
     <string name="all_habits_title">ALL HABITS</string>
 
-    <!-- edit_habit.xml -->
+    <!-- edit_habit -->
     <string name="edit_title">EDIT</string>
     <string name="edit_habit_menu">Edit Habit</string>
     <string name="delete_habit_menu">Delete Habit</string>
@@ -40,16 +38,13 @@
     <string name="title_activity_statistics">Statistics</string>
     <string name="start_date">Start Date</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <!-- dialogs -->
     <string name="check_if_clear">This action cannot be undone.\n\nAre you sure you want to clear all data?</string>
     <string name="clear_all_data">Clear</string>
     <string name="cancel">Cancel</string>
     <string name="title_activity_habit_homepage">HabitHomepage</string>
     <string name="complete_habit_button_content_description">Complete Habit Button</string>
-    <string name="streak_count">Streak</string>
     <string name="check_if_delete_habit">Delete habit?</string>
     <string name="check_if_delete_record">Delete record?</string>
     <string name="delete">Delete</string>
-    <string name="title_activity_new_habit2">NewHabitActivity2</string>
 </resources>

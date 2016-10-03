@@ -10,14 +10,6 @@
             android:id="@+id/nav_all_habits"
             android:icon="@drawable/ic_menu_habits"
             android:title="All Habits" />
-        <item
-            android:id="@+id/nav_history"
-            android:icon="@drawable/ic_menu_history"
-            android:title="History" />
-        <item
-            android:id="@+id/nav_statistics"
-            android:icon="@drawable/ic_menu_statistics"
-            android:title="Statistics" />
     </group>
 
     <item android:title="Clear Date">

@@ -29,6 +29,8 @@ import java.util.ArrayList;
 public class AllHabitsActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, AdapterView.OnItemClickListener {
 
+    private WeeklyScheduleController controller = new WeeklyScheduleController();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,13 +43,17 @@ public class AllHabitsActivity extends AppCompatActivity
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
         toggle.syncState();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
-        navigationView.getMenu().getItem(1).setChecked(true);
+        setNavigator(navigationView);
 
         ListView listView = (ListView) findViewById(R.id.allHabitsListView);
-        final ArrayList<Habit> habitList = new WeeklyScheduleController().getAllHabits().getHabitList();
+        final ArrayList<Habit> habitList = controller.getAllHabits().getHabitList();
         final ArrayAdapter<Habit> habitAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, habitList);
         listView.setAdapter(habitAdapter);
         listView.setOnItemClickListener(AllHabitsActivity.this);
@@ -102,14 +108,6 @@ public class AllHabitsActivity extends AppCompatActivity
             this.finish();
         } else if ( id == R.id.nav_all_habits) {
 
-        } else if (id == R.id.nav_history) {
-            Intent intent = new Intent(AllHabitsActivity.this, HistoryActivity.class);
-            this.finish();
-            startActivity(intent);
-        } else if (id == R.id.nav_statistics) {
-            Intent intent = new Intent(AllHabitsActivity.this, StatisticsActivity.class);
-            this.finish();
-            startActivity(intent);
         } else if (id == R.id.nav_delete) {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setMessage(R.string.check_if_clear);
@@ -141,5 +139,10 @@ public class AllHabitsActivity extends AppCompatActivity
         bundle.putString("activity", "AllHabitsActivity");
         intent.putExtras(bundle);
         startActivity(intent);
+    }
+
+    public void setNavigator(NavigationView navigationView) {
+        navigationView.setNavigationItemSelectedListener(this);
+        navigationView.getMenu().getItem(1).setChecked(true);
     }
 }
