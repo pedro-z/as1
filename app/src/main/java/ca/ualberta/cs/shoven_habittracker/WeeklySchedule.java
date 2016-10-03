@@ -24,31 +24,6 @@ public class WeeklySchedule {
         this.listeners = new ArrayList<>();
     }
 
-    private ArrayList<Listener> getListeners () {
-        if (listeners == null) {
-            listeners = new ArrayList<>();
-        }
-        return listeners;
-    }
-
-    public void notifyListeners () {
-        for (Listener listener : getListeners()) {
-            try {
-                listener.update();
-            } catch (NullPointerException e) {
-                // skip
-            }
-        }
-    }
-
-    public void addListener(Listener listener) {
-        getListeners().add(listener);
-    }
-
-    public void removeListener(Listener listener) {
-        getListeners().remove(listener);
-    }
-
     public ArrayList<DailySchedule> getWeeklySchedule() {
         return weeklySchedule;
     }
@@ -131,5 +106,30 @@ public class WeeklySchedule {
     public void deleteRecord(Integer position, String formattedDateString, int childPosition) {
         this.habitList.getHabitList().get(position).getRecordList().getRecordListValue().get(formattedDateString).remove(childPosition);
         notifyListeners();
+    }
+
+    private ArrayList<Listener> getListeners () {
+        if (listeners == null) {
+            listeners = new ArrayList<>();
+        }
+        return listeners;
+    }
+
+    public void notifyListeners () {
+        for (Listener listener : getListeners()) {
+            try {
+                listener.update();
+            } catch (NullPointerException e) {
+                // skip
+            }
+        }
+    }
+
+    public void addListener(Listener listener) {
+        getListeners().add(listener);
+    }
+
+    public void removeListener(Listener listener) {
+        getListeners().remove(listener);
     }
 }

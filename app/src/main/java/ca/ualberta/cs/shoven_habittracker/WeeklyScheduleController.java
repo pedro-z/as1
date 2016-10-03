@@ -38,10 +38,6 @@ public class WeeklyScheduleController {
         return getWeeklySchedule().getHabitSchedule(habit);
     }
 
-    public void hasHabit(Habit habit) {
-        getWeeklySchedule().hasHabit(habit);
-    }
-
     public void addHabit(Habit habit, Schedule schedule) {
         getWeeklySchedule().addHabit(habit, schedule);
         save();

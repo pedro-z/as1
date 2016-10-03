@@ -43,8 +43,6 @@ public class HabitHomepageActivity extends AppCompatActivity {
                 position = controller.getAllHabits().getHabitIndex(dayIndexHabit);
                 activity = "AllHabitsActivity";
 
-                //Toast.makeText(this, "" + controller.getAllHabits().getHabitIndex(dayIndexHabit) + " " + position + " " + activity, Toast.LENGTH_SHORT).show();
-
             }
         }
 

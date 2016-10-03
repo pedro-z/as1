@@ -13,7 +13,6 @@ import java.util.List;
 
 public class RecordList {
     private HashMap<String, List<Date>> recordList;
-    private ArrayList<Listener> listeners;
 
     public RecordList() {
         this.recordList = new HashMap<>();
@@ -50,26 +49,5 @@ public class RecordList {
         if (recordList.get(formattedDateString).isEmpty()) {
             recordList.remove(formattedDateString);
         }
-    }
-
-    private ArrayList<Listener> getListeners () {
-        if (listeners == null) {
-            listeners = new ArrayList<>();
-        }
-        return listeners;
-    }
-
-    public void notifyListeners () {
-        for (Listener listener : getListeners()) {
-            listener.update();
-        }
-    }
-
-    public void addListener(Listener listener) {
-        getListeners().add(listener);
-    }
-
-    public void removeListener(Listener listener) {
-        getListeners().remove(listener);
     }
 }

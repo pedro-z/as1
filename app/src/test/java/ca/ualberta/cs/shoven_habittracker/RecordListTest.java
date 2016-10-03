@@ -49,38 +49,4 @@ public class RecordListTest {
         recordList.deleteRecord(today, date2);
         assertFalse("Record of data still exists", habit.getRecordList().getRecordListValue().containsKey(today));
     }
-
-    boolean updated = false;
-    @Test
-    public void testAddListener() {
-        RecordList recordList = new RecordList();
-        String today = new FormattedDate().toString();
-
-        updated = false;
-        Listener l = new Listener() {
-            public void update() {
-                RecordListTest.this.updated = true;
-            }
-        };
-        recordList.addListener(l);
-        recordList.addRecord(today, new Date());
-        assertTrue("RecordList didn't fire an update", this.updated);
-    }
-
-    @Test
-    public void testRemoveListeners() {
-        RecordList recordList = new RecordList();
-        String today = new FormattedDate().toString();
-
-        updated = false;
-        Listener l = new Listener() {
-            public void update() {
-                RecordListTest.this.updated = true;
-            }
-        };
-        recordList.addListener(l);
-        recordList.removeListener(l);
-        recordList.addRecord(today, new Date());
-        assertFalse("RecordList didn't fire an update", this.updated);
-    }
 }

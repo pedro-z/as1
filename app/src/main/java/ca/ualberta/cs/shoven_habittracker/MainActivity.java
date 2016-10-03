@@ -213,7 +213,6 @@ public class MainActivity extends AppCompatActivity
             Type listType = new TypeToken<WeeklySchedule>(){}.getType();
 
             WeeklyScheduleController.setWeeklySchedule((WeeklySchedule) gson.fromJson(in, listType));
-            Toast.makeText(MainActivity.this, "DATA LOADED", Toast.LENGTH_SHORT).show();
         } catch (FileNotFoundException e) {
             // Do nothing, weeklySchedule was initialized to empty at the start of the file
         }

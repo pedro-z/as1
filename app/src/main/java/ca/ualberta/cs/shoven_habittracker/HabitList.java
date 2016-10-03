@@ -47,7 +47,7 @@ public class HabitList {
 
     public Integer getHabitIndex(Habit habit) {
         for (int i = 0; i < habitList.size(); i++) {
-            if (habitList.get(i).equals(habit)) {
+            if (habitList.get(i).getName().equals(habit.getName())) {
                 return i;
             }
         }
