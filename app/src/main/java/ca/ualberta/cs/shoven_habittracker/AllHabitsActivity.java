@@ -25,6 +25,7 @@ public class AllHabitsActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, AdapterView.OnItemClickListener {
 
     private static final String FILENAME = "file.sav";
+    private WeeklyScheduleController controller = new WeeklyScheduleController();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,12 +43,14 @@ public class AllHabitsActivity extends AppCompatActivity
 
     @Override
     protected void onStart() {
+        super.onStart();
+
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         navigationView.getMenu().getItem(1).setChecked(true);
 
-        /*ListView listView = (ListView) findViewById(R.id.mainHabitsListView);
-        ArrayList<Habit> habitList = WeeklyScheduleController.getWeeklySchedule().getAllHabits().getHabitList();
+        ListView listView = (ListView) findViewById(R.id.mainHabitsListView);
+        ArrayList<Habit> habitList = controller.getAllHabits().getHabitList();
         final ArrayAdapter<Habit> habitAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, habitList);
         listView.setAdapter(habitAdapter);
         listView.setOnItemClickListener(this);
@@ -57,7 +60,7 @@ public class AllHabitsActivity extends AppCompatActivity
             public void update() {
                 habitAdapter.notifyDataSetChanged();
             }
-        });*/
+        });
     }
 
     @Override

@@ -27,7 +27,8 @@ import static android.R.color.white;
 public class HabitHomepageActivity extends AppCompatActivity {
     private Integer position;
     private String activity;
-    final int dayIndex = new LocalDateTime(DateTimeZone.forID("Canada/Mountain")).getDayOfWeek() % 7;
+    private int dayIndex = new LocalDateTime(DateTimeZone.forID("Canada/Mountain")).getDayOfWeek() % 7;
+    private WeeklyScheduleController controller = new WeeklyScheduleController();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,8 +42,8 @@ public class HabitHomepageActivity extends AppCompatActivity {
         if (activity == null) {
             activity = "AllHabitsActivity";
         } else if (activity.equals("MainActivity")) {
-            Habit dayIndexHabit = WeeklyScheduleController.getWeeklySchedule().getDailySchedule(dayIndex).getHabits().get(position);
-            position = WeeklyScheduleController.getWeeklySchedule().getAllHabits().getHabitIndex(dayIndexHabit);
+            Habit dayIndexHabit = controller.getDailySchedule(dayIndex).getHabits().get(position);
+            position = controller.getAllHabits().getHabitIndex(dayIndexHabit);
             activity = "AllHabitsActivity";
         }
     }
@@ -51,7 +52,7 @@ public class HabitHomepageActivity extends AppCompatActivity {
     public void onStart() {
         super.onStart();
 
-        final Habit habit = WeeklyScheduleController.getWeeklySchedule().getAllHabits().getHabitList().get(position);
+        final Habit habit = controller.getAllHabits().getHabitList().get(position);
         updateHabitDetails(habit);
         habit.addListener(new Listener() {
             @Override
@@ -61,13 +62,13 @@ public class HabitHomepageActivity extends AppCompatActivity {
         });
 
         final ExpandableListView expandableListView = (ExpandableListView) findViewById(R.id.habitHistoryListView);
-        final HashMap<String, List<Date>> records = WeeklyScheduleController.getWeeklySchedule().getAllHabits().getHabitList().get(position).getRecordList().getRecordListValue();
+        final HashMap<String, List<Date>> records = controller.getAllHabits().getHabitList().get(position).getRecordList().getRecordListValue();
         final Set<String> titleSet = records.keySet();
         final ArrayList<String> titleList = new ArrayList<>(titleSet);
         final CustomExpandableListAdapter expandableListAdapter = new CustomExpandableListAdapter(this, titleList, records);
         expandableListView.setAdapter(expandableListAdapter);
 
-        WeeklyScheduleController.getWeeklySchedule().getAllHabits().getHabitList().get(position).getRecordList().addListener(new Listener() {
+        controller.getAllHabits().getHabitList().get(position).getRecordList().addListener(new Listener() {
             @Override
             public void update() {
                 expandableListAdapter.notifyDataSetChanged();
@@ -107,7 +108,7 @@ public class HabitHomepageActivity extends AppCompatActivity {
         builder.setPositiveButton(R.string.delete, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
                 Toast.makeText(HabitHomepageActivity.this, "Habit completion deleted", Toast.LENGTH_SHORT).show();
-                Habit habit = new WeeklyScheduleController().getAllHabits().getHabitList().get(position);
+                Habit habit = controller.getAllHabits().getHabitList().get(position);
                 String formattedDateString = new FormattedDate().toString();
                 RecordList recordList = habit.getRecordList();
                 recordList.getRecordListValue().get(groupText).remove(childPosition);
@@ -178,7 +179,6 @@ public class HabitHomepageActivity extends AppCompatActivity {
         builder.setPositiveButton(R.string.delete, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
                 Toast.makeText(HabitHomepageActivity.this, "Habit deleted", Toast.LENGTH_SHORT).show();
-                WeeklyScheduleController controller = new WeeklyScheduleController();
                 Bundle bundle = getIntent().getExtras();
                 Integer position = bundle.getInt("position");
                 Habit habit = controller.getAllHabits().getHabitList().get(position);
@@ -212,7 +212,7 @@ public class HabitHomepageActivity extends AppCompatActivity {
         totalCountTextView.setText(Integer.toString(totalCount));
 
         ExpandableListView expandableListView = (ExpandableListView) findViewById(R.id.habitHistoryListView);
-        HashMap<String, List<Date>> records = WeeklyScheduleController.getWeeklySchedule().getAllHabits().getHabitList().get(position).getRecordList().getRecordListValue();
+        HashMap<String, List<Date>> records = controller.getAllHabits().getHabitList().get(position).getRecordList().getRecordListValue();
         Set<String> titleSet = records.keySet();
         ArrayList<String> titleList = new ArrayList<>(titleSet);
         CustomExpandableListAdapter expandableListAdapter = new CustomExpandableListAdapter(this, titleList, records);
@@ -226,7 +226,7 @@ public class HabitHomepageActivity extends AppCompatActivity {
         TextView fridayTextView = (TextView) findViewById(R.id.fridayTextView);
         TextView saturdayTextView = (TextView) findViewById(R.id.saturdayTextView);
 
-        Schedule schedule = WeeklyScheduleController.getWeeklySchedule().getHabitSchedule(habit);
+        Schedule schedule = controller.getHabitSchedule(habit);
         Schedule antiSchedule = new Schedule();
         antiSchedule.fillSchedule();
         for (Integer day : schedule.getSchedule()) {

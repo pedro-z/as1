@@ -17,6 +17,7 @@ public class EditHabitActivity extends AppCompatActivity {
     private String activity;
     private Schedule scheduleToSet = new Schedule();
     private Integer sun = 0, mon = 1, tue = 2, wed = 3, thu = 4, fri = 5, sat = 6;
+    private WeeklyScheduleController controller = new WeeklyScheduleController();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,7 +28,7 @@ public class EditHabitActivity extends AppCompatActivity {
         position = bundle.getInt("position");
         activity = bundle.getString("activity");
 
-        final Habit habit = WeeklyScheduleController.getWeeklySchedule().getAllHabits().getHabitList().get(position);;
+        final Habit habit = controller.getAllHabits().getHabitList().get(position);;
         final Schedule schedule = initializeFields(habit, scheduleToSet);
 
         FloatingActionButton editFab = (FloatingActionButton) findViewById(R.id.saveEditFab);
@@ -146,7 +147,7 @@ public class EditHabitActivity extends AppCompatActivity {
         habitNameEditText.setText(habit.getName());
         habitCommentEditText.setText(habit.getComment());
 
-        Collection<Integer> habitSchedule = WeeklyScheduleController.getWeeklySchedule().getHabitSchedule(habit).getSchedule();
+        Collection<Integer> habitSchedule = controller.getHabitSchedule(habit).getSchedule();
         ToggleButton sundayToggle = (ToggleButton) findViewById(R.id.editSundayToggleButton);
         ToggleButton mondayToggle = (ToggleButton) findViewById(R.id.editMondayToggleButton);
         ToggleButton tuesdayToggle = (ToggleButton) findViewById(R.id.editTuesdayToggleButton);
@@ -191,7 +192,6 @@ public class EditHabitActivity extends AppCompatActivity {
         EditText newHabitName = (EditText) findViewById(R.id.editHabitNameEditText);
         EditText newHabitComment = (EditText) findViewById(R.id.editCommentEditText);
 
-        WeeklyScheduleController controller = new WeeklyScheduleController();
         controller.updateHabitSchedule(habit, schedule);
         habit.setName(newHabitName.getText().toString());
         habit.setComment(newHabitComment.getText().toString());
