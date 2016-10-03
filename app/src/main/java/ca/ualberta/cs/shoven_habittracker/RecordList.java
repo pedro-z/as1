@@ -43,7 +43,6 @@ public class RecordList {
             recordList.put(formattedDateString, new ArrayList<Date>());
         }
         recordList.get(formattedDateString).add(date);
-        notifyListeners();
     }
 
     public void deleteRecord(String formattedDateString, Date date) {
@@ -51,7 +50,6 @@ public class RecordList {
         if (recordList.get(formattedDateString).isEmpty()) {
             recordList.remove(formattedDateString);
         }
-        notifyListeners();
     }
 
     private ArrayList<Listener> getListeners () {

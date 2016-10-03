@@ -24,11 +24,13 @@ import android.widget.Toast;
 import org.joda.time.DateTimeZone;
 import org.joda.time.LocalDateTime;
 
+import java.io.File;
 import java.util.ArrayList;
 
 public class AllHabitsActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, AdapterView.OnItemClickListener {
 
+    private static final String FILENAME = "file.sav";
     private WeeklyScheduleController controller = new WeeklyScheduleController();
 
     @Override
@@ -114,6 +116,7 @@ public class AllHabitsActivity extends AppCompatActivity
             builder.setPositiveButton(R.string.clear_all_data, new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int id) {
                     Toast.makeText(AllHabitsActivity.this, "All data cleared", Toast.LENGTH_SHORT).show();
+                    clearData();
                 }
             });
             builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
@@ -144,5 +147,15 @@ public class AllHabitsActivity extends AppCompatActivity
     public void setNavigator(NavigationView navigationView) {
         navigationView.setNavigationItemSelectedListener(this);
         navigationView.getMenu().getItem(1).setChecked(true);
+    }
+
+    private void clearData() {
+        File dir = getFilesDir();
+        File file = new File(dir, FILENAME);
+        try {
+            boolean deleted = file.delete();
+        } catch (SecurityException e) {
+            throw new RuntimeException();
+        }
     }
 }

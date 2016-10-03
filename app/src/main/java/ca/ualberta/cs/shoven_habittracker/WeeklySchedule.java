@@ -33,7 +33,11 @@ public class WeeklySchedule {
 
     public void notifyListeners () {
         for (Listener listener : getListeners()) {
-            listener.update();
+            try {
+                listener.update();
+            } catch (NullPointerException e) {
+                // skip
+            }
         }
     }
 
@@ -106,6 +110,26 @@ public class WeeklySchedule {
                 }
             }
         }
+        notifyListeners();
+    }
+
+    public void clear() {
+        this.weeklySchedule = new ArrayList<>();
+        for(int i = 0; i < 7; i++) {
+            weeklySchedule.add(new DailySchedule(i));
+        }
+        this.habitList = new HabitList();
+        this.listeners = new ArrayList<>();
+        notifyListeners();
+    }
+
+    public void addRecord(Integer position) {
+        this.habitList.getHabitList().get(position).addRecord();
+        notifyListeners();
+    }
+
+    public void deleteRecord(Integer position, String formattedDateString, int childPosition) {
+        this.habitList.getHabitList().get(position).getRecordList().getRecordListValue().get(formattedDateString).remove(childPosition);
         notifyListeners();
     }
 }

@@ -3,6 +3,7 @@ package ca.ualberta.cs.shoven_habittracker;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -21,11 +22,11 @@ import java.util.List;
 import java.util.Set;
 
 public class HabitHomepageActivity extends AppCompatActivity {
-    private Integer position;
-    private String activity;
+    private Integer position = 0;
+    private String activity = "";
     private Integer dayOfWeek = new LocalDateTime(DateTimeZone.forID("Canada/Mountain")).getDayOfWeek() % 7;
     private WeeklyScheduleController controller = new WeeklyScheduleController();
-    private Habit habit;
+    private Habit habit = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,16 +37,16 @@ public class HabitHomepageActivity extends AppCompatActivity {
         position = bundle.getInt("position");
         activity = bundle.getString("activity");
 
-        if (activity.equals("MainActivity")) {
-            Habit dayIndexHabit = controller.getDailySchedule(dayOfWeek).getHabits().get(position);
-            position = controller.getAllHabits().getHabitIndex(dayIndexHabit);
-            activity = "AllHabitsActivity";
-        }
-    }
+        if (activity != null) {
+            if (activity.equals("MainActivity")) {
+                Habit dayIndexHabit = controller.getDailySchedule(dayOfWeek).getHabits().get(position);
+                position = controller.getAllHabits().getHabitIndex(dayIndexHabit);
+                activity = "AllHabitsActivity";
 
-    @Override
-    public void onResume() {
-        super.onResume();
+                //Toast.makeText(this, "" + controller.getAllHabits().getHabitIndex(dayIndexHabit) + " " + position + " " + activity, Toast.LENGTH_SHORT).show();
+
+            }
+        }
 
         habit = controller.getAllHabits().getHabitList().get(position);
         updateHabitDetails(habit);
@@ -63,7 +64,7 @@ public class HabitHomepageActivity extends AppCompatActivity {
         final CustomExpandableListAdapter expandableListAdapter = new CustomExpandableListAdapter(this, titleList, records);
         expandableListView.setAdapter(expandableListAdapter);
 
-        controller.getAllHabits().getHabitList().get(position).getRecordList().addListener(new Listener() {
+        WeeklyScheduleController.getWeeklySchedule().addListener(new Listener() {
             @Override
             public void update() {
                 expandableListAdapter.notifyDataSetChanged();
@@ -90,10 +91,15 @@ public class HabitHomepageActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 setResult(RESULT_OK);
-                controller.getAllHabits().getHabitList().get(position).addRecord();
+                controller.addRecord(position);
                 Toast.makeText(HabitHomepageActivity.this, "Habit completed", Toast.LENGTH_SHORT).show();
             }
         } );
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
     }
 
     private void deleteRecord(final String groupText, final int childPosition) {
@@ -102,8 +108,7 @@ public class HabitHomepageActivity extends AppCompatActivity {
         builder.setPositiveButton(R.string.delete, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
                 Toast.makeText(HabitHomepageActivity.this, "Habit completion deleted", Toast.LENGTH_SHORT).show();
-                RecordList recordList = controller.getAllHabits().getHabitList().get(position).getRecordList();
-                recordList.getRecordListValue().get(groupText).remove(childPosition);
+                controller.deleteRecord(position, groupText, childPosition);
 
                 ExpandableListView expandableListView = (ExpandableListView) findViewById(R.id.habitHistoryListView);
                 HashMap<String, List<Date>> records = controller.getAllHabits().getHabitList().get(position).getRecordList().getRecordListValue();

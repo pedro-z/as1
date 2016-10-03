@@ -17,6 +17,8 @@ import java.util.Date;
 // TODO force them to give a habit a name
 
 public class NewHabitActivity extends AppCompatActivity {
+    private WeeklyScheduleController controller = new WeeklyScheduleController();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -148,7 +150,6 @@ public class NewHabitActivity extends AppCompatActivity {
 
         Habit habit = new Habit(habitName.getText().toString(), date, habitComment.getText().toString());
 
-        WeeklyScheduleController controller = new WeeklyScheduleController();
         controller.addHabit(habit, schedule);
 
         Toast.makeText(this, "Habit added", Toast.LENGTH_SHORT).show();

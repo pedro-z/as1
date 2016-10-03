@@ -51,6 +51,6 @@ public class HabitList {
                 return i;
             }
         }
-        return null;
+        return 0;
     }
 }

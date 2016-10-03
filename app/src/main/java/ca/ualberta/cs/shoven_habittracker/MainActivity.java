@@ -18,10 +18,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 package ca.ualberta.cs.shoven_habittracker;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -38,15 +38,29 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
 import org.joda.time.DateTimeZone;
 import org.joda.time.LocalDateTime;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, AdapterView.OnItemClickListener {
 
+    private static final String FILENAME = "file.sav";
     private WeeklyScheduleController controller = new WeeklyScheduleController();
     private Integer dayOfWeek = new LocalDateTime(DateTimeZone.forID("Canada/Mountain")).getDayOfWeek() % 7;
 
@@ -60,6 +74,11 @@ public class MainActivity extends AppCompatActivity
         TextView dateTextView = (TextView) findViewById(R.id.todayDateTextView);
         setDateToday(dateTextView);
 
+        WeeklyScheduleController.setContext(this);
+        loadFromFile();
+
+        updateScreen();
+
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
             this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -72,21 +91,6 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         setNavigator(navigationView);
-
-        ListView listView = (ListView) findViewById(R.id.mainHabitsListView);
-        final ArrayList<Habit> habitList = controller.getDailySchedule(dayOfWeek).getHabits();
-        final ArrayAdapter<Habit> habitAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, habitList);
-        listView.setAdapter(habitAdapter);
-
-        listView.setOnItemClickListener(this);
-
-        WeeklyScheduleController.getWeeklySchedule().addListener(new Listener() {
-            @Override
-            public void update() {
-                habitAdapter.notifyDataSetChanged();
-            }
-        });
-
     }
 
     public void floatingActionButtonClicked(View v) {
@@ -126,6 +130,22 @@ public class MainActivity extends AppCompatActivity
         return super.onOptionsItemSelected(item);
     }
 
+    public void updateScreen() {
+        ListView listView = (ListView) findViewById(R.id.mainHabitsListView);
+        final ArrayList<Habit> habitList = controller.getDailySchedule(dayOfWeek).getHabits();
+        final ArrayAdapter<Habit> habitAdapter = new ArrayAdapter<Habit>(MainActivity.this, android.R.layout.simple_list_item_1, habitList);
+        listView.setAdapter(habitAdapter);
+
+        listView.setOnItemClickListener(MainActivity.this);
+
+        WeeklyScheduleController.getWeeklySchedule().addListener(new Listener() {
+            @Override
+            public void update() {
+                habitAdapter.notifyDataSetChanged();
+            }
+        });
+    }
+
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
@@ -143,6 +163,7 @@ public class MainActivity extends AppCompatActivity
             builder.setPositiveButton(R.string.clear_all_data, new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int id) {
                     Toast.makeText(MainActivity.this, "All data cleared", Toast.LENGTH_SHORT).show();
+                    clearData();
                 }
             });
             builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
@@ -179,5 +200,54 @@ public class MainActivity extends AppCompatActivity
         bundle.putString("activity", "MainActivity");
         intent.putExtras(bundle);
         startActivity(intent);
+    }
+
+    private void loadFromFile() {
+        try {
+            FileInputStream fis = openFileInput(FILENAME);
+            BufferedReader in = new BufferedReader(new InputStreamReader(fis));
+
+            Gson gson = new Gson();
+
+            // code from http://stackoverflow.com/questions/12384064/gson-convert-from-json-to-a-typed-arraylist
+            Type listType = new TypeToken<WeeklySchedule>(){}.getType();
+
+            WeeklyScheduleController.setWeeklySchedule((WeeklySchedule) gson.fromJson(in, listType));
+            Toast.makeText(MainActivity.this, "DATA LOADED", Toast.LENGTH_SHORT).show();
+        } catch (FileNotFoundException e) {
+            // Do nothing, weeklySchedule was initialized to empty at the start of the file
+        }
+    }
+
+    public void saveInFile() {
+        try {
+            FileOutputStream fos = openFileOutput(FILENAME,
+                    Context.MODE_PRIVATE);
+
+            BufferedWriter out = new BufferedWriter(new OutputStreamWriter(fos));
+
+            Gson gson = new Gson();
+            gson.toJson(WeeklyScheduleController.getWeeklySchedule(), out);
+            out.flush();
+
+            fos.close();
+        } catch (FileNotFoundException e) {
+            // rethrow
+            throw new RuntimeException(e);
+        } catch (IOException e) {
+            // rethrow
+            throw new RuntimeException(e);
+        }
+    }
+
+    private void clearData() {
+        File dir = getFilesDir();
+        File file = new File(dir, FILENAME);
+        try {
+            boolean deleted = file.delete();
+            controller.clear();
+        } catch (SecurityException e) {
+            throw new RuntimeException();
+        }
     }
 }

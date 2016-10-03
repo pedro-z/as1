@@ -44,7 +44,11 @@ public class Habit {
 
     public void notifyListeners () {
         for (Listener listener : getListeners()) {
-            listener.update();
+            try {
+                listener.update();
+            } catch (NullPointerException e) {
+                // skip
+            }
         }
     }
 
