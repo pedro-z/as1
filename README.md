@@ -1,9 +1,11 @@
 # HabitTracker
-Android app to track daily habits.
+Android application to track daily habits.
+
+The master branch contains the final, release version of the application.
 
 This app requires a minimum API of <b>23</b> to run. 
 
-<i>(This is due to some features used in the XML files that do not work the same way on a lower API. In class, Dr. Hindle said that we could use whichever API would work so after struggling with trying to get it to work on a lower API for a few hours I decided to just stick with what I had so I could complete the assignment on time.)</i>
+<i>This is due to some features used in the XML files that do not work the same way on a lower API, and I struggled to get API 18 or 19 to work properly on my laptop. In class, Dr. Hindle said that we could use whichever API would work, so after struggling with trying to get it to work on a lower API for a few hours I decided to just stick with what I had so I could complete the assignment on time.</i>
 
 Demo video: https://youtu.be/dLbncxpA2RE
 
