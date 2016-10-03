@@ -12,3 +12,6 @@ Demo video: https://youtu.be/dLbncxpA2RE
 Inspiration for code was drawn from the following sources:
 
 (<a href "https://neurobin.org/docs/android/android-date-picker-example/">1</a>) (<a href="http://www.vogella.com/tutorials/AndroidListView/article.html#expandablelistview">2</a>) (<a href="http://www.androidhive.info/2013/07/android-expandable-list-view-tutorial/">3</a>) (<a href="http://www.journaldev.com/9942/android-expandablelistview-example-tutorial">4</a>) (<a href="http://stackoverflow.com/questions/9950661/android-longclicklistener-on-expandablelistview-group-items">5</a>)
+
+
+For this assignment, I consulted with Bennett Hreherchuk, Kieter Philip Balisnomo, Mandy Meindersma, Cole Mackenzie, and Michael Paradis.
