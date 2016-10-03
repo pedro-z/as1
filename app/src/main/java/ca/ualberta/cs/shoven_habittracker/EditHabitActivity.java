@@ -203,13 +203,9 @@ public class EditHabitActivity extends AppCompatActivity {
         EditText newHabitComment = (EditText) findViewById(R.id.editCommentEditText);
 
         WeeklyScheduleController controller = new WeeklyScheduleController();
-        controller.updateHabitSchedule(habit, schedule, position);
-        if (!habit.getName().equals(newHabitName.getText().toString())) {
-            habit.setName(newHabitName.getText().toString());
-        }
-        if (!habit.getComment().equals(newHabitComment.getText().toString())) {
-            habit.setComment(newHabitComment.getText().toString());
-        }
+        controller.updateHabitSchedule(habit, schedule);
+        habit.setName(newHabitName.getText().toString());
+        habit.setComment(newHabitComment.getText().toString());
 
         Toast.makeText(this, "Habit changes saved", Toast.LENGTH_SHORT).show();
     }

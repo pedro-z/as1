@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_habit_homepage"
     android:layout_width="match_parent"
@@ -50,7 +51,7 @@
         android:layout_alignParentEnd="true"
         android:layout_marginEnd="10dp" />
 
-    <ListView
+    <ExpandableListView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/habitHistoryListView"
@@ -60,12 +61,12 @@
     <ImageButton
         android:layout_width="100dp"
         android:id="@+id/completeHabitButton"
-        android:background="@drawable/ic_check_circle"
         android:contentDescription="@string/complete_habit_button_content_description"
         android:layout_height="100dp"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:onClick="addRecord" />
+        android:onClick="addRecord"
+        android:background="@drawable/ic_check_circle" />
 
     <TextView
         android:text="0"

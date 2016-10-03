@@ -115,7 +115,7 @@
             android:layout_alignParentEnd="true"
             android:id="@+id/pickDateButton"
             android:onClick="showDatePickerDialog"
-            android:background="@drawable/ic_date_picker"
+            android:background="?selectableItemBackground"
             android:layout_marginTop="10dp"
             android:contentDescription="@string/pick_date"/>
 

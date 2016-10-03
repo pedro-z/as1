@@ -94,7 +94,7 @@ public class Habit {
     }
 
     public void addRecord() {
-        getRecordList().addRecord(new Date());
+        getRecordList().addRecord(new FormattedDate().toString(), new Date());
         notifyListeners();
     }
 }

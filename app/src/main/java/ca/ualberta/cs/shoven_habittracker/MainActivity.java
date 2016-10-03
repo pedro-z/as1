@@ -75,20 +75,16 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.mainFab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this, NewHabitActivity.class);
-                startActivity(intent);
-            }
-        });
-
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
             this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
         toggle.syncState();
+    }
+
+    public void floatingActionButtonClicked(View v) {
+        Intent intent = new Intent(MainActivity.this, NewHabitActivity.class);
+        startActivity(intent);
     }
 
     @Override

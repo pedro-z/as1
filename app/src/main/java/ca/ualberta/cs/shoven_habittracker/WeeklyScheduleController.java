@@ -36,7 +36,7 @@ public class WeeklyScheduleController {
         getWeeklySchedule().removeHabit(habit);
     }
 
-    public void updateHabitSchedule(Habit habit, Schedule newSchedule, Integer position ) {
-        getWeeklySchedule().updateHabitSchedule(habit, newSchedule, position);
+    public void updateHabitSchedule(Habit habit, Schedule newSchedule ) {
+        getWeeklySchedule().updateHabitSchedule(habit, newSchedule);
     }
 }

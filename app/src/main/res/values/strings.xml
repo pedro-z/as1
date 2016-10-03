@@ -49,5 +49,7 @@
     <string name="complete_habit_button_content_description">Complete Habit Button</string>
     <string name="streak_count">Streak</string>
     <string name="check_if_delete_habit">Delete habit?</string>
-    <string name="delete_habit">Delete</string>
+    <string name="check_if_delete_record">Delete record?</string>
+    <string name="delete">Delete</string>
+    <string name="title_activity_new_habit2">NewHabitActivity2</string>
 </resources>

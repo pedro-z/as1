@@ -49,7 +49,6 @@ public class WeeklySchedule {
         return weeklySchedule;
     }
 
-
     public HabitList getAllHabits() {
         return habitList;
     }
@@ -95,11 +94,16 @@ public class WeeklySchedule {
         notifyListeners();
     }
 
-    public void updateHabitSchedule(Habit habit, Schedule newSchedule, Integer position) {
+    public void updateHabitSchedule(Habit habit, Schedule newSchedule) {
         for (DailySchedule dailySchedule : weeklySchedule) {
+            Integer position = dailySchedule.getHabits().indexOf(habit);
             dailySchedule.removeHabit(habit);
             if (newSchedule.getSchedule().contains(dailySchedule.getDayIndex())) {
-                dailySchedule.insertHabit(habit, position);
+                if (position == -1) {
+                    dailySchedule.addHabit(habit);
+                } else {
+                    dailySchedule.insertHabit(habit, position);
+                }
             }
         }
         notifyListeners();

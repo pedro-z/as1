@@ -45,7 +45,8 @@ public class HabitTest {
     @Test
     public void testAddRecord() {
         Habit habit = new Habit("Test habit");
+        String today = new FormattedDate().toString();
         habit.addRecord();
-        assertTrue(habit.getRecordList().getSize().equals(1));
+        assertTrue(habit.getRecordList().getSize(today).equals(1));
     }
 }

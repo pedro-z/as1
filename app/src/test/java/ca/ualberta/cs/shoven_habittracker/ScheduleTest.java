@@ -43,4 +43,34 @@ public class ScheduleTest {
         schedule.clear();
         assertTrue(schedule.getSize().equals(0));
     }
+
+    boolean updated = false;
+    @Test
+    public void testAddListener() {
+        Schedule schedule = new Schedule();
+        updated = false;
+        Listener l = new Listener() {
+            public void update() {
+                ScheduleTest.this.updated = true;
+            }
+        };
+        schedule.addListener(l);
+        schedule.addToSchedule(0);
+        assertTrue("WeeklySchedule didn't fire an update", this.updated);
+    }
+
+    @Test
+    public void testRemoveListeners() {
+        Schedule schedule = new Schedule();
+        updated = false;
+        Listener l = new Listener() {
+            public void update() {
+                ScheduleTest.this.updated = true;
+            }
+        };
+        schedule.addListener(l);
+        schedule.removeListener(l);
+        schedule.addToSchedule(0);
+        assertFalse("WeeklySchedule didn't fire an update", this.updated);
+    }
 }

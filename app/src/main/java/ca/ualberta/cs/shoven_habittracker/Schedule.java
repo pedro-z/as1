@@ -9,6 +9,7 @@ import java.util.Collection;
 
 public class Schedule {
     private Collection<Integer> schedule;
+    private ArrayList<Listener> listeners;
 
     public Schedule() {
         this.schedule = new ArrayList<>();
@@ -28,10 +29,12 @@ public class Schedule {
         if( !schedule.contains(dayIndex) && (dayIndex >= 0 && dayIndex < 7)  ) {
             schedule.add(dayIndex);
         }
+        notifyListeners();
     }
 
     public void removeFromSchedule(Integer dayIndex) {
         schedule.remove(dayIndex);
+        notifyListeners();
     }
 
     public void fillSchedule() {
@@ -46,5 +49,26 @@ public class Schedule {
 
     public void clear() {
         schedule.clear();
+    }
+
+    private ArrayList<Listener> getListeners () {
+        if (listeners == null) {
+            listeners = new ArrayList<>();
+        }
+        return listeners;
+    }
+
+    public void notifyListeners () {
+        for (Listener listener : getListeners()) {
+            listener.update();
+        }
+    }
+    
+    public void addListener(Listener listener) {
+        getListeners().add(listener);
+    }
+
+    public void removeListener(Listener listener) {
+        getListeners().remove(listener);
     }
 }

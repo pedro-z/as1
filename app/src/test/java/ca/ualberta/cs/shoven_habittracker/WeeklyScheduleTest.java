@@ -134,7 +134,7 @@ public class WeeklyScheduleTest {
         Schedule newSchedule = new Schedule();
         newSchedule.addToSchedule(mon);
         newSchedule.addToSchedule(tue);
-        weeklySchedule.updateHabitSchedule(habit1, newSchedule, 0);
+        weeklySchedule.updateHabitSchedule(habit1, newSchedule);
 
         assertTrue(newSchedule.getSchedule().equals(weeklySchedule.getHabitSchedule(habit1).getSchedule()));
         assertTrue(weeklySchedule.getAllHabits().getHabitList().get(0).equals(habit1));

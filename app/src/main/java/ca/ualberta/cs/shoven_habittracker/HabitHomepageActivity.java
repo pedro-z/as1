@@ -9,12 +9,8 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.ImageButton;
-import android.widget.ListView;
-import android.widget.TextView;
-import android.widget.Toast;
+import android.widget.*;
+import android.widget.ExpandableListAdapter;
 
 import org.joda.time.DateTimeZone;
 import org.joda.time.LocalDateTime;
@@ -23,6 +19,9 @@ import org.w3c.dom.Text;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Set;
 
 import static android.R.color.white;
 
@@ -55,46 +54,88 @@ public class HabitHomepageActivity extends AppCompatActivity {
         habitToSet = controller.getAllHabits().getHabitList().get(position);
         //Toast.makeText(this, "" + position + " " + activity, Toast.LENGTH_SHORT).show();
         final Habit habit = habitToSet;
-        if (habit != null) {
-            updateHabitDetails(habit);
-            habit.addListener(new Listener() {
-                @Override
-                public void update() {
-                    updateHabitDetails(habit);
+        updateHabitDetails(habit, controller);
+        habit.addListener(new Listener() {
+            @Override
+            public void update() {
+                updateHabitDetails(habit, controller);
+            }
+        });
+
+        final ExpandableListView expandableListView = (ExpandableListView) findViewById(R.id.habitHistoryListView);
+        final HashMap<String, List<Date>> records = controller.getAllHabits().getHabitList().get(position).getRecordList().getRecordListValue();
+        final Set<String> titleSet = records.keySet();
+        final ArrayList<String> titleList = new ArrayList<>(titleSet);
+        final CustomExpandableListAdapter expandableListAdapter = new CustomExpandableListAdapter(this, titleList, records);
+        expandableListView.setAdapter(expandableListAdapter);
+
+        controller.getAllHabits().getHabitList().get(position).getRecordList().addListener(new Listener() {
+            @Override
+            public void update() {
+                expandableListAdapter.notifyDataSetChanged();
+                Toast.makeText(HabitHomepageActivity.this, "LIST UPDATED", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        expandableListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                int itemType = ExpandableListView.getPackedPositionType(id);
+
+                if (itemType == ExpandableListView.PACKED_POSITION_TYPE_CHILD) {
+                    int childPosition = ExpandableListView.getPackedPositionChild(id);
+                    String groupText = ((TextView) findViewById(R.id.listGroupTitle)).getText().toString();
+                    deleteRecord(groupText, childPosition);
+                    //Toast.makeText(HabitHomepageActivity.this, "" + groupText, Toast.LENGTH_SHORT).show();
+                    return true;
                 }
-            });
-        } else {
-            Toast.makeText(this, "Unknown habit", Toast.LENGTH_SHORT).show();
-            finish();
-        }
+                return false;
+            }
+        });
 
         ImageButton completeHabitButton = (ImageButton) findViewById(R.id.completeHabitButton);
         completeHabitButton.setOnClickListener(new View.OnClickListener() {
-
             @Override
             public void onClick(View view) {
                 setResult(RESULT_OK);
+                //Toast.makeText(HabitHomepageActivity.this, "" + position, Toast.LENGTH_SHORT).show();
+                // TODO there is a problem that sometimes arises here if I add multiple habits, then delete one in the middle where the position is incorrect. Fix if there is time.
                 controller.getAllHabits().getHabitList().get(position).addRecord();
                 Toast.makeText(HabitHomepageActivity.this, "Habit completed", Toast.LENGTH_SHORT).show();
             }
         } );
+    }
 
-        ListView listView = (ListView) findViewById(R.id.habitHistoryListView);
-        Collection<Date> records = controller.getAllHabits().getHabitList().get(position).getRecordList().getRecordListValue();
-        final ArrayList<Date> recordList = new ArrayList<>(records);
-        final ArrayAdapter<Date> recordAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, recordList);
-        listView.setAdapter(recordAdapter);
+    private void deleteRecord(final String groupText, final int childPosition) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage(R.string.check_if_delete_record);
+        builder.setPositiveButton(R.string.delete, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                Toast.makeText(HabitHomepageActivity.this, "Habit completion deleted", Toast.LENGTH_SHORT).show();
+                RecordList recordList = new WeeklyScheduleController().getAllHabits().getHabitList().get(position).getRecordList();
+                recordList.getRecordListValue().get(groupText).remove(childPosition);
 
-        controller.getAllHabits().getHabitList().get(position).addListener(new Listener() {
-            @Override
-            public void update() {
-                recordList.clear();
-                Collection<Date> students = controller.getAllHabits().getHabitList().get(position).getRecordList().getRecordListValue();
-                recordList.addAll(students);
-                recordAdapter.notifyDataSetChanged();
+                WeeklyScheduleController controller = new WeeklyScheduleController();
+                ExpandableListView expandableListView = (ExpandableListView) findViewById(R.id.habitHistoryListView);
+                HashMap<String, List<Date>> records = controller.getAllHabits().getHabitList().get(position).getRecordList().getRecordListValue();
+                Set<String> titleSet = records.keySet();
+                ArrayList<String> titleList = new ArrayList<>(titleSet);
+                CustomExpandableListAdapter expandableListAdapter = new CustomExpandableListAdapter(HabitHomepageActivity.this, titleList, records);
+                expandableListView.setAdapter(expandableListAdapter);
             }
         });
+        builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                // User cancelled the dialog
+            }
+        });
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
+
+    // TODO when you move back to Today in navigation bar, update which one is highlighted
+    // TODO set character limit in setName...no enter
+    // TODO force user to set a habit name
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -131,7 +172,7 @@ public class HabitHomepageActivity extends AppCompatActivity {
     public void deleteHabit(MenuItem Menu) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setMessage(R.string.check_if_delete_habit);
-        builder.setPositiveButton(R.string.delete_habit, new DialogInterface.OnClickListener() {
+        builder.setPositiveButton(R.string.delete, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
                 Toast.makeText(HabitHomepageActivity.this, "Habit deleted", Toast.LENGTH_SHORT).show();
                 WeeklyScheduleController controller = new WeeklyScheduleController();
@@ -151,11 +192,18 @@ public class HabitHomepageActivity extends AppCompatActivity {
         dialog.show();
     }
 
-    public void updateHabitDetails(Habit habit) {
+    public void updateHabitDetails(Habit habit, WeeklyScheduleController controller) {
         // update this to be the habit name for the habit screen we are on
         setTitle(habit.getName());
         TextView commentTextView = (TextView) findViewById(R.id.habitHomepageCommentTextView);
         commentTextView.setText(habit.getComment());
+
+        ExpandableListView expandableListView = (ExpandableListView) findViewById(R.id.habitHistoryListView);
+        HashMap<String, List<Date>> records = controller.getAllHabits().getHabitList().get(position).getRecordList().getRecordListValue();
+        Set<String> titleSet = records.keySet();
+        ArrayList<String> titleList = new ArrayList<>(titleSet);
+        CustomExpandableListAdapter expandableListAdapter = new CustomExpandableListAdapter(this, titleList, records);
+        expandableListView.setAdapter(expandableListAdapter);
 
         TextView sundayTextView = (TextView) findViewById(R.id.sundayTextView);
         TextView mondayTextView = (TextView) findViewById(R.id.mondayTextView);
@@ -165,7 +213,7 @@ public class HabitHomepageActivity extends AppCompatActivity {
         TextView fridayTextView = (TextView) findViewById(R.id.fridayTextView);
         TextView saturdayTextView = (TextView) findViewById(R.id.saturdayTextView);
 
-        Schedule schedule= new WeeklyScheduleController().getHabitSchedule(habit);
+        Schedule schedule= controller.getHabitSchedule(habit);
         Schedule antiSchedule = new Schedule();
         antiSchedule.fillSchedule();
         for (Integer day : schedule.getSchedule()) {
@@ -239,9 +287,5 @@ public class HabitHomepageActivity extends AppCompatActivity {
                     break;
             }
         }
-    }
-
-    public void addRecord() {
-
     }
 }
