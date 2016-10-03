@@ -143,11 +143,6 @@ public class WeeklyScheduleTest {
     }
 
     @Test
-    public void testUpdateHabitSchedule() {
-        // TODO finish testUpdateHabitSchedule() in WeeklyScheduleTest()
-    }
-
-    @Test
     public void testGetHabitIndex() {
         WeeklySchedule weeklySchedule = new WeeklySchedule();
 
@@ -195,65 +190,4 @@ public class WeeklyScheduleTest {
         weeklySchedule.addHabit(habit, null);
         assertFalse("WeeklySchedule didn't fire an update", this.updated);
     }
-
-    /*@Test
-    public void testWeeklySchedule() {
-        WeeklySchedule weeklySchedule = new WeeklySchedule();
-        assertTrue("Weekly Schedule not initialised", weeklySchedule.getWeeklySchedule().size() == 7);
-        assertTrue("Daily Schedule not empty", weeklySchedule.getDailySchedule(0).getHabits().size() == 0);
-        assertEquals("Daily schedule exists", null, weeklySchedule.getDailySchedule(8));
-
-        String habitName = "Test habit 1";
-        Habit habit1 = new Habit(habitName);
-        Schedule schedule1 = new Schedule();
-        schedule1.addToSchedule(1);
-        schedule1.addToSchedule(2);
-        schedule1.addToSchedule(3);
-        schedule1.addToSchedule(4);
-        schedule1.addToSchedule(5);
-        weeklySchedule.addHabit(habit1, schedule1);
-
-        habitName = "Test habit 2";
-        Habit habit2 = new Habit(habitName);
-        Schedule schedule2 = new Schedule();
-        schedule2.addToSchedule(0);
-        schedule2.addToSchedule(1);
-        schedule2.addToSchedule(2);
-        schedule2.addToSchedule(3);
-        weeklySchedule.addHabit(habit2, schedule2);
-
-        assertTrue("Sunday schedule incorrect", weeklySchedule.getDailySchedule(0).getHabits().size() == 1);
-        assertTrue("Monday schedule incorrect", weeklySchedule.getDailySchedule(1).getHabits().size() == 2);
-        assertTrue("Saturday schedule incorrect", weeklySchedule.getDailySchedule(6).getHabits().size() == 0);
-        assertEquals("Unknown schedule exists", null, weeklySchedule.getDailySchedule(7));
-        assertTrue("Habit1 schedule incorrect", weeklySchedule.getHabitSchedule(habit1).getSize() == 5);
-        assertTrue("Habit2 schedule incorrect", weeklySchedule.getHabitSchedule(habit2).getSize() == 4);
-        assertTrue("Habit count incorrect", weeklySchedule.getHabits().size() == 2);
-
-        weeklySchedule.removeHabit(habit1);
-        assertTrue("Habit1 schedule not cleared", weeklySchedule.getHabitSchedule(habit1).getSize() == 0);
-        assertTrue("New Monday schedule incorrect", weeklySchedule.getDailySchedule(1).getHabits().size() == 1);
-        assertTrue("New Friday schedule incorrect", weeklySchedule.getDailySchedule(5).getHabits().size() == 0);
-        assertTrue("Habit count incorrect", weeklySchedule.getAllHabits().size() == 1);
-
-        Schedule newSchedule = weeklySchedule.getHabitSchedule(habit2);
-        newSchedule.addToSchedule(4);
-        weeklySchedule.updateHabitSchedule(habit2, newSchedule);
-        assertTrue("New Habit2 schedule incorrect", weeklySchedule.getHabitSchedule(habit2).getSize() == 5);
-        newSchedule.removeFromSchedule(4);
-        newSchedule.removeFromSchedule(3);
-        weeklySchedule.updateHabitSchedule(habit2, newSchedule);
-        assertTrue("Newer Habit2 schedule incorrect", weeklySchedule.getHabitSchedule(habit2).getSize() == 3);
-
-        weeklySchedule.removeHabitSchedule(habit2);
-        assertTrue("Habit2 schedule not cleared", weeklySchedule.getHabitSchedule(habit2).getSize() == 0);
-        assertTrue("Final Sunday schedule incorrect", weeklySchedule.getDailySchedule(0).getHabits().size() == 0);
-        assertTrue("Final Monday schedule incorrect", weeklySchedule.getDailySchedule(1).getHabits().size() == 0);
-        assertTrue("Final Tuesday schedule incorrect", weeklySchedule.getDailySchedule(2).getHabits().size() == 0);
-        assertTrue("Final Wednesday schedule incorrect", weeklySchedule.getDailySchedule(3).getHabits().size() == 0);
-        assertTrue("Final Thursday schedule incorrect", weeklySchedule.getDailySchedule(4).getHabits().size() == 0);
-        assertTrue("Final Friday schedule incorrect", weeklySchedule.getDailySchedule(5).getHabits().size() == 0);
-        assertTrue("Final Saturday schedule incorrect", weeklySchedule.getDailySchedule(6).getHabits().size() == 0);
-        assertTrue("Final Habit count incorrect", weeklySchedule.getAllHabits().size() == 0);
-    }*/
 }
